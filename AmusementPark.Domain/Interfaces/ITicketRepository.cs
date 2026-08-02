@@ -1,0 +1,24 @@
+﻿
+using AmusementPark.Domain.Entities;
+
+namespace AmusementPark.Domain.Interfaces
+{
+    public class ITicketRepository
+    {
+        public interface ITicketRepositories
+        {
+            List<Ticket> GetAll();
+
+            Ticket? GetById(int id);
+
+            List<Ticket> GetUnusedTickets();
+
+            void Add(Ticket ticket);
+
+            void Update(Ticket ticket);
+
+            void Delete(int id);
+
+        }
+    }
+}

@@ -1,0 +1,149 @@
+﻿@model AmusementPark.Models.Game
+
+@{
+    ViewData["Title"] = "";
+}
+
+<div class="stars"></div>
+<div class="balloons">
+    <div class="balloon b1"></div>
+    <div class="balloon b2"></div>
+    <div class="balloon b3"></div>
+    <div class="balloon b4"></div>
+    <div class="balloon b5"></div>
+</div>
+<div class="confetti" id="confetti"></div>
+
+<!-- ===== هدر ===== -->
+<header>
+    <div class="logo"><span class="bulb"></span> بلیط<span class="dot">شهربازی</span></div>
+    <button class="menu-btn" id="menuBtn" aria-label="باز کردن منو"><span></span><span></span><span></span></button>
+</header>
+
+<!-- ===== چرخ و فلک تزئینی (گوشه‌ی بالا-چپ، محو) ===== -->
+<div class="ferris-wrap">
+    <svg width="900" height="900" viewBox="0 0 300 300">
+        <defs>
+            <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffffff" />
+                <stop offset="100%" stop-color="#9d7bff" stop-opacity="0" />
+            </radialGradient>
+        </defs>
+        <g class="wheel-spin">
+            <circle cx="150" cy="150" r="112" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="4" />
+            <circle cx="150" cy="150" r="96" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="2" stroke-dasharray="3 7" />
+            <g stroke="rgba(255,255,255,.14)" stroke-width="3">
+                <line x1="150" y1="150" x2="150" y2="38" />
+                <line x1="150" y1="150" x2="229.2" y2="70.8" />
+                <line x1="150" y1="150" x2="262" y2="150" />
+                <line x1="150" y1="150" x2="229.2" y2="229.2" />
+                <line x1="150" y1="150" x2="150" y2="262" />
+                <line x1="150" y1="150" x2="70.8" y2="229.2" />
+                <line x1="150" y1="150" x2="38" y2="150" />
+                <line x1="150" y1="150" x2="70.8" y2="70.8" />
+            </g>
+            <g transform="translate(150,38)"><g class="counter-spin"><circle r="11" class="gondola g1" fill="#ff3d7f" /></g></g>
+            <g transform="translate(229.2,70.8)"><g class="counter-spin"><circle r="11" class="gondola g2" fill="#ffc94d" /></g></g>
+            <g transform="translate(262,150)"><g class="counter-spin"><circle r="11" class="gondola g3" fill="#00d9c0" /></g></g>
+            <g transform="translate(229.2,229.2)"><g class="counter-spin"><circle r="11" class="gondola g4" fill="#9d7bff" /></g></g>
+            <g transform="translate(150,262)"><g class="counter-spin"><circle r="11" class="gondola g1" fill="#ff3d7f" /></g></g>
+            <g transform="translate(70.8,229.2)"><g class="counter-spin"><circle r="11" class="gondola g2" fill="#ffc94d" /></g></g>
+            <g transform="translate(38,150)"><g class="counter-spin"><circle r="11" class="gondola g3" fill="#00d9c0" /></g></g>
+            <g transform="translate(70.8,70.8)"><g class="counter-spin"><circle r="11" class="gondola g4" fill="#9d7bff" /></g></g>
+        </g>
+        <circle cx="150" cy="150" r="26" fill="url(#hubGlow)" />
+        <circle cx="150" cy="150" r="8" fill="#f5f3ff" />
+    </svg>
+</div>
+
+<!-- ===== جستجو ===== -->
+<div class="search-wrap">
+    <div class="search-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a79fc7" stroke-width="2"><circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+        <input id="searchInput" type="text" placeholder="جستجوی نام شهربازی...">
+    </div>
+</div>
+
+<!-- ===== ساید‌بار ===== -->
+<div class="overlay" id="overlay"></div>
+<aside class="sidebar" id="sidebar">
+    <h3>صفحات</h3>
+    <a href="#">🏠 خانه</a>
+    <a href="#">🎡 همه شهربازی‌ها</a>
+    <a href="#">🎟️ بلیط‌های من <span class="tag">2</span></a>
+    <a href="#">👤 حساب کاربری</a>
+    <a href="#">📞 تماس با ما</a>
+</aside>
+
+<!-- ===== بخش‌های شهربازی ===== -->
+<main id="parksContainer">
+
+    <section class="park-section" data-park-name="شهربازی ارم">
+        <div class="park-title-row"><h2>شهربازی ارم</h2><span class="emoji-spin">🎡</span><span class="city">تهران</span></div>
+        <div class="ride-row">
+            <div class="ride-card">
+                <div class="thumb"></div><div class="notches"></div><div class="stub-divider"></div>
+                <div class="info"><p class="name">ترن هوایی</p><span class="price">۱۸۰,۰۰۰ تومان</span></div>
+            </div>
+            <div class="ride-card">
+                <div class="thumb"></div><div class="notches"></div><div class="stub-divider"></div>
+                <div class="info"><p class="name">چرخ و فلک</p><span class="price">۹۰,۰۰۰ تومان</span></div>
+            </div>
+            <div class="ride-card">
+                <div class="thumb"></div><div class="notches"></div><div class="stub-divider"></div>
+                <div class="info"><p class="name">خانه وحشت</p><span class="price">۱۲۰,۰۰۰ تومان</span></div>
+            </div>
+            <div class="ride-card">
+                <div class="thumb"></div><div class="notches"></div><div class="stub-divider"></div>
+                <div class="info"><p class="name">قطار مرگ</p><span class="price">۱۵۰,۰۰۰ تومان</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="park-section" data-park-name="لوناپارک نور">
+        <div class="park-title-row"><h2>لوناپارک نور</h2><span class="emoji-spin">🎢</span><span class="city">مشهد</span></div>
+        <div class="ride-row">
+            <div class="ride-card">
+                <div class="thumb"></div><div class="notches"></div><div class="stub-divider"></div>
+                <div class="info"><p class="name">قایق تصادفی</p><span class="price">۱۰۰,۰۰۰ تومان</span></div>
+            </div>
+            <div class="ride-card">
+                <div class="thumb"></div><div class="notches"></div><div class="stub-divider"></div>
+                <div class="info"><p class="name">برج سقوط آزاد</p><span class="price">۲۰۰,۰۰۰ تومان</span></div>
+            </div>
+            <div class="ride-card">
+                <div class="thumb"></div><div class="notches"></div><div class="stub-divider"></div>
+                <div class="info"><p class="name">ماشین برقی</p><span class="price">۸۰,۰۰۰ تومان</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="park-section" data-park-name="شهربازی پارک ملت">
+        <div class="park-title-row"><h2>شهربازی پارک ملت</h2><span class="emoji-spin">🎠</span><span class="city">اصفهان</span></div>
+        <div class="ride-row">
+            <div class="ride-card">
+                <div class="thumb"></div><div class="notches"></div><div class="stub-divider"></div>
+                <div class="info"><p class="name">چرخ فلک غول‌پیکر</p><span class="price">۱۳۰,۰۰۰ تومان</span></div>
+            </div>
+            <div class="ride-card">
+                <div class="thumb"></div><div class="notches"></div><div class="stub-divider"></div>
+                <div class="info"><p class="name">هشت تصادفی</p><span class="price">۹۵,۰۰۰ تومان</span></div>
+            </div>
+            <div class="ride-card">
+                <div class="thumb"></div><div class="notches"></div><div class="stub-divider"></div>
+                <div class="info"><p class="name">سینما ۵ بعدی</p><span class="price">۱۷۰,۰۰۰ تومان</span></div>
+            </div>
+            <div class="ride-card">
+                <div class="thumb"></div><div class="notches"></div><div class="stub-divider"></div>
+                <div class="info"><p class="name">تاب زنجیری</p><span class="price">۷۰,۰۰۰ تومان</span></div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>© تمامی حقوق برای بلیط‌شهربازی محفوظ است.</footer>
+<button class="back-to-top" id="backToTop" aria-label="بازگشت به بالا">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><line x1="12" y1="19" x2="12" y2="5" /><polyline points="5 12 12 5 19 12" /></svg>
+</button>
+<script src="~/js/site.js"></script>

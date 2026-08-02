@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AmusementPark.Domain.Entities;
+
+namespace AmusementPark.Domain.Interfaces
+{
+    public class ITransactionRepository
+    {
+        public interface ITransactionRepositories
+        {
+            List<Transaction> GetAll();
+
+            Transaction? GetById(int id);
+
+            List<Transaction> GetPlayerTransactions(int playerId);
+
+            void Add(Transaction transaction);
+
+            void Update(Transaction transaction);
+
+            void Delete(int id);
+        }
+
+    }
+}

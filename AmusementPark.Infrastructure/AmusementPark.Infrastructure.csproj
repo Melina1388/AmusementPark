@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+	 
+    <Folder Include="Migrations\" />
+    <Folder Include="SMS\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.OleDb" Version="10.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AmusementPark.Application\AmusementPark.Application.csproj" />
+    <ProjectReference Include="..\AmusementPark.Domain\AmusementPark.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
