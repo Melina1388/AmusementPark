@@ -3,9 +3,8 @@ using AmusementPark.Domain.Entities;
 
 namespace AmusementPark.Domain.Interfaces
 {
-    public class ITicketRepository
-    {
-        public interface ITicketRepositories
+  
+        public interface ITicketRepository
         {
             List<Ticket> GetAll();
 
@@ -20,5 +19,5 @@ namespace AmusementPark.Domain.Interfaces
             void Delete(int id);
 
         }
-    }
+    
 }

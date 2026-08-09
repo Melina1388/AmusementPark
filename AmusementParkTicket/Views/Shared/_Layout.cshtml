@@ -14,7 +14,13 @@
 
 <body>
 
+
     @RenderBody()
 
+    <script src="~/js/site.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
 </body>
+
 </html>

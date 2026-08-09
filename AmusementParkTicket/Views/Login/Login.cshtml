@@ -1,0 +1,88 @@
+﻿
+<div class="auth-wrap">
+    <div class="auth-card auth-step">
+
+        <div class="auth-card-banner">
+            🎟️
+        </div>
+
+        <div class="notches"></div>
+
+        <div class="stub-divider"></div>
+
+        <div class="auth-card-body">
+
+            <h1>ورود به حساب کاربری</h1>
+
+            <p class="subtitle">
+                برای ورود، نام کاربری و شماره موبایل خود را وارد کنید.
+            </p>
+
+            @if (TempData["LoginError"] != null)
+            {
+                <div class="field-error"
+                     style="display:block; margin-bottom:15px;">
+                    @TempData["LoginError"]
+                </div>
+            }
+
+            <form id="loginForm"
+                  asp-controller="Login"
+                  asp-action="Login"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        نام کاربری
+                    </label>
+
+                    <input id="username"
+                           name="username"
+                           class="form-input"
+                           placeholder="مثلاً reza_ahmadi"
+                           autocomplete="username"
+                           required>
+
+                    <span class="field-error"
+                          id="usernameError"></span>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        شماره موبایل
+                    </label>
+
+                    <input id="mobile"
+                           name="mobile"
+                           class="form-input mobile-input"
+                           type="tel"
+                           inputmode="numeric"
+                           maxlength="11"
+                           minlength="11"
+                           pattern="09[0-9]{9}"
+                           placeholder="09xxxxxxxxx"
+                           autocomplete="tel"
+                           required>
+
+                    <span class="field-error"
+                          id="mobileError"></span>
+
+                </div>
+
+
+                <button type="submit"
+                        class="submit-btn">
+                    ثبت و دریافت کد
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+</div>

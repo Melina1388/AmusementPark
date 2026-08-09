@@ -7,9 +7,8 @@ using AmusementPark.Domain.Entities;
 
 namespace AmusementPark.Domain.Interfaces
 {
-    public class ITransactionRepository
-    {
-        public interface ITransactionRepositories
+   
+        public interface ITransactionRepository
         {
             List<Transaction> GetAll();
 
@@ -24,5 +23,5 @@ namespace AmusementPark.Domain.Interfaces
             void Delete(int id);
         }
 
-    }
+    
 }

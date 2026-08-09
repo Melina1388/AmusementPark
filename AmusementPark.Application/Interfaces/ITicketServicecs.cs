@@ -4,13 +4,13 @@ namespace AmusementPark.Application.Services;
 
 public interface ITicketService
 {
-    List<Ticket> GetAllTickets();
+    List<Ticket> GetAll();
 
-    Ticket? GetTicket(int id);
+    Ticket? GetById(int id);
 
-    List<Ticket> GetAvailableTickets();
+    List<Ticket> GetUnusedTickets();
 
-    void Create(Ticket ticket);
+    void Add(Ticket ticket);
 
     void Update(Ticket ticket);
 

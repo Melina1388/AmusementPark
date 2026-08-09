@@ -1,23 +1,55 @@
-﻿
-using AmusementPark.Domain.Entities;
+﻿using AmusementPark.Domain.Entities;
 
 namespace AmusementPark.Domain.Interfaces
 {
-    public class IPlayerRepository
+    /// <summary>
+    /// قرارداد دسترسی به اطلاعات Player.
+    ///
+    /// Domain نباید بداند دیتابیس از چه تکنولوژی‌ای استفاده می‌کند.
+    /// پیاده‌سازی این Interface در Infrastructure قرار دارد.
+    /// </summary>
+    public interface IPlayerRepository
     {
-        public interface IPlayerRepositories
-        {
-            List<Player> GetAll();
+        /// <summary>
+        /// دریافت تمام کاربران.
+        /// </summary>
+        List<Player> GetAll();
 
-            Player? GetById(int id);
+        /// <summary>
+        /// دریافت کاربر بر اساس شناسه.
+        /// </summary>
+        Player? GetById(int id);
 
-            Player? GetByMobile(string mobile);
+        /// <summary>
+        /// دریافت کاربر بر اساس شماره موبایل.
+        /// </summary>
+        Player? GetByMobile(string mobile);
 
-            void Add(Player player);
+        /// <summary>
+        /// دریافت کاربر بر اساس نام کاربری.
+        /// </summary>
+        Player? GetByName(string playerName);
 
-            void Update(Player player);
+        /// <summary>
+        /// دریافت کاربر بر اساس نام کاربری و شماره موبایل.
+        /// </summary>
+        Player? GetByNameAndMobile(
+            string playerName,
+            string mobile);
 
-            void Delete(int id);
-        }
+        /// <summary>
+        /// ثبت کاربر جدید در دیتابیس.
+        /// </summary>
+        void Add(Player player);
+
+        /// <summary>
+        /// ویرایش اطلاعات کاربر.
+        /// </summary>
+        void Update(Player player);
+
+        /// <summary>
+        /// حذف کاربر.
+        /// </summary>
+        void Delete(int id);
     }
 }

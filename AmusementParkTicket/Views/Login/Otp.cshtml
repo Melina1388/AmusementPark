@@ -1,0 +1,186 @@
+﻿
+<div class="auth-wrap">
+
+    <div class="auth-card auth-step">
+
+        <div class="auth-card-banner">
+            📩
+        </div>
+
+        <div class="notches"></div>
+
+        <div class="stub-divider"></div>
+
+        <div class="auth-card-body">
+
+            <h1>
+                کد تأیید را وارد کن
+            </h1>
+
+            <p class="subtitle">
+                کد ۴ رقمی زیر را وارد کنید
+                
+            </p>
+
+
+            @* فقط برای تست پروژه *@
+            @if (ViewBag.TestOtp != null)
+            {
+                <div style="
+                    padding:10px;
+                    margin-bottom:20px;
+                    text-align:center;
+                    background:;
+                    border-radius:8px;">
+
+                
+
+                    <strong>
+                        @ViewBag.TestOtp
+                    </strong>
+
+                </div>
+            }
+
+
+            @if (TempData["OtpError"] != null)
+            {
+                <div class="field-error"
+                     style="display:block;">
+
+                    @TempData["OtpError"]
+
+                </div>
+            }
+
+
+            <form asp-controller="Login"
+                  asp-action="VerifyOtp"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+
+                <div class="otp-row"
+                     style="
+                     display:flex;
+                     gap:10px;
+                     justify-content:center;
+                     direction:ltr;">
+
+                    <input type="text"
+                           class="otp-box"
+                           maxlength="1"
+                           inputmode="numeric"
+                           required>
+
+                    <input type="text"
+                           class="otp-box"
+                           maxlength="1"
+                           inputmode="numeric"
+                           required>
+
+                    <input type="text"
+                           class="otp-box"
+                           maxlength="1"
+                           inputmode="numeric"
+                           required>
+
+                    <input type="text"
+                           class="otp-box"
+                           maxlength="1"
+                           inputmode="numeric"
+                           required>
+
+                </div>
+
+
+                <!--
+                    چهار input بالا در نهایت
+                    داخل این input قرار می‌گیرند.
+                -->
+                <input type="hidden"
+                       name="otp"
+                       id="otp">
+
+
+                <button type="submit"
+                        class="submit-btn">
+
+                    تأیید و ورود
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const otpBoxes =
+        document.querySelectorAll(".otp-box");
+
+    const otpInput =
+        document.getElementById("otp");
+
+
+    otpBoxes.forEach((box, index) => {
+
+        box.addEventListener("input", function () {
+
+            // فقط عدد
+            this.value =
+                this.value
+                    .replace(/\D/g, "")
+                    .slice(0, 1);
+
+
+            // رفتن به خانه بعدی
+            if (
+                this.value &&
+                index < otpBoxes.length - 1
+            ) {
+                otpBoxes[index + 1].focus();
+            }
+
+
+            updateOtp();
+
+        });
+
+
+        box.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Backspace" &&
+                    !this.value &&
+                    index > 0
+                ) {
+                    otpBoxes[index - 1].focus();
+                }
+
+            });
+    });
+
+
+    function updateOtp() {
+
+        let code = "";
+
+        otpBoxes.forEach(box => {
+
+            code += box.value;
+
+        });
+
+        otpInput.value = code;
+    }
+
+</script>

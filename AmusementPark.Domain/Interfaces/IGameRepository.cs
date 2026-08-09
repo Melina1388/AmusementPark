@@ -2,9 +2,8 @@
 using AmusementPark.Domain.Entities;
 namespace AmusementPark.Domain.Interfaces
 {
-    public class IGameRepository
-    {
-        public interface IGameRepositories
+    
+        public interface IGameRepository
         {
             List<Game> GetAll();
 
@@ -19,5 +18,5 @@ namespace AmusementPark.Domain.Interfaces
             void Delete(int id);
 
         }
-    }
+    
 }

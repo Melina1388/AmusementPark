@@ -5,17 +5,16 @@ namespace AmusementPark.Application.Interfaces
 {
     public interface IGameService
     {
-        List<Game> GetAllGames();
+        List<Game> GetAll();
 
-        Game? GetGame(int id);
+        Game? GetById(int id);
 
-        List<Game> SearchGames(string keyword);
+        List<Game> Search(string text);
 
-        void Create(Game game);
+        void Add(Game game);
 
-        void Edit(Game game);
+        void Update(Game game);
 
-
-        void Remove(int id);
+        void Delete(int id);
     }
 }

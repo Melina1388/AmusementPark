@@ -1,18 +1,31 @@
 ﻿using AmusementPark.Domain.Entities;
 
-namespace AmusementPark.Application.Services;
-
-public interface IPlayerService
+namespace AmusementPark.Application.Interfaces
 {
-    List<Player> GetAllPlayers();
+    /// <summary>
+    /// قرارداد منطق مربوط به Player.
+    ///
+    /// Controller مستقیماً با Repository کار نمی‌کند.
+    /// Controller → Service → Repository
+    /// </summary>
+    public interface IPlayerService
+    {
+        List<Player> GetAll();
 
-    Player? GetPlayer(int id);
+        Player? GetById(int id);
 
-    Player? FindByMobile(string mobile);
+        Player? GetByMobile(string mobile);
 
-    void Register(Player player);
+        Player? GetByName(string playerName);
 
-    void Update(Player player);
+        Player? GetByNameAndMobile(
+            string playerName,
+            string mobile);
 
-    void Delete(int id);
+        void Add(Player player);
+
+        void Update(Player player);
+
+        void Delete(int id);
+    }
 }

@@ -20,5 +20,11 @@
     <ProjectReference Include="..\AmusementPark.Application\AmusementPark.Application.csproj" />
     <ProjectReference Include="..\AmusementPark.Domain\AmusementPark.Domain.csproj" />
   </ItemGroup>
-
+	
+	<ItemGroup>
+		<None Update="DataBase\AmusementParkDB.accdb">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
+	</ItemGroup>
 </Project>

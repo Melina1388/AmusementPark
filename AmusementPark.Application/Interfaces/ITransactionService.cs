@@ -4,13 +4,15 @@ namespace AmusementPark.Application.Services;
 
 public interface ITransactionService
 {
-    List<Transaction> GetAllTransactions();
+    List<Transaction> GetAll();
 
-    Transaction? GetTransaction(int id);
+    Transaction? GetById(int id);
 
     List<Transaction> GetPlayerTransactions(int playerId);
 
-    void Create(Transaction transaction);
+    void Add(Transaction transaction);
+
+    void Update(Transaction transaction);
 
     void Delete(int id);
 }
