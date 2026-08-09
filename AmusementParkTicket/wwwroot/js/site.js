@@ -478,3 +478,59 @@
     }
 
 });
+
+/////////////////////////////Basket///////////////////////
+function formatNumber(v) { return Math.round(v).toLocaleString('en-US'); }
+
+function recalcGrandTotal() {
+    var rows = document.querySelectorAll('[data-cart-row]');
+    var total = 0;
+    rows.forEach(r => total += parseFloat(r.getAttribute('data-unit-price')) * parseInt(r.getAttribute('data-quantity'), 10));
+    document.querySelector('[data-grand-total]').textContent = formatNumber(total);
+    if (rows.length === 0) document.getElementById('totalBar').style.display = 'none';
+}
+
+function removeRow(row) {
+    row.classList.add('row-removing');
+    row.addEventListener('transitionend', function handler() {
+        row.removeEventListener('transitionend', handler);
+        var group = row.closest('[data-park-group]');
+        row.remove();
+        if (group && group.querySelectorAll('[data-cart-row]').length === 0) group.remove();
+        recalcGrandTotal();
+        if (document.querySelectorAll('[data-cart-row]').length === 0) {
+            var wrap = document.getElementById('cartWrap');
+            var empty = document.createElement('div');
+            empty.className = 'cart-empty';
+            empty.innerHTML = '<span class="big-emoji">🎈</span> سبد خریدت فعلاً خالیه!';
+            wrap.appendChild(empty);
+        }
+    }, { once: true });
+}
+
+document.querySelectorAll('[data-cart-row]').forEach(function (row) {
+    var qtyEl = row.querySelector('[data-qty-value]');
+    var lineTotalEl = row.querySelector('[data-line-total]');
+    var unitPrice = parseFloat(row.getAttribute('data-unit-price'));
+
+    function updateRow(newQty) {
+        row.setAttribute('data-quantity', newQty);
+        qtyEl.textContent = newQty;
+        lineTotalEl.textContent = formatNumber(unitPrice * newQty);
+        qtyEl.classList.remove('bump'); void qtyEl.offsetWidth; qtyEl.classList.add('bump');
+        row.classList.remove('row-pulse'); void row.offsetWidth; row.classList.add('row-pulse');
+    }
+
+    row.querySelector('[data-qty-increase]').addEventListener('click', function () {
+        updateRow(parseInt(row.getAttribute('data-quantity'), 10) + 1);
+        recalcGrandTotal();
+    });
+    row.querySelector('[data-qty-decrease]').addEventListener('click', function () {
+        var newQty = parseInt(row.getAttribute('data-quantity'), 10) - 1;
+        if (newQty <= 0) { removeRow(row); return; }
+        updateRow(newQty);
+        recalcGrandTotal();
+    });
+});
+
+recalcGrandTotal();
