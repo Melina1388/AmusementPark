@@ -66,7 +66,6 @@
             ✓
         </div>
 
-        <h3>بلیت با موفقیت ثبت شد</h3>
 
         <p>
             بلیت شما به سبد خرید اضافه شد.
@@ -169,26 +168,40 @@
                                 }
 
                             </div>
-                       
-                        
-                            <div class="ticket-counter">
+                            @{
+                                int currentQuantity = 0;
 
-                                <!-- دکمه اولیه -->
+                                if (game.GameID.HasValue)
+                                {
+                                    Model.BasketQuantities.TryGetValue(
+                                    game.GameID.Value,
+                                    out currentQuantity);
+                                }
+                            }
+
+                            <div class="ticket-counter"
+                                 data-game-id="@game.GameID"
+                                 data-initial-quantity="@currentQuantity">
+
                                 <button type="button"
                                         class="ticket-toggle"
-                                        aria-expanded="false" data-game-id="@game.GameID">
+                                        aria-expanded="false"
+                                        data-game-id="@game.GameID">
+
                                     🎟️ انتخاب بلیت
+
                                 </button>
 
-                                <!-- کنترل تعداد -->
-                                <div class="ticket-controls" >
+                                <div class="ticket-controls">
 
                                     <button type="button"
                                             class="ticket-minus">
                                         −
                                     </button>
 
-                                    <span class="ticket-count">0</span>
+                                    <span class="ticket-count">
+                                        @currentQuantity
+                                    </span>
 
                                     <button type="button"
                                             class="ticket-plus">
@@ -198,7 +211,6 @@
                                 </div>
 
                             </div>
-                          
 
                         </div>
                     }

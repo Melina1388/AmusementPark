@@ -58,7 +58,9 @@ namespace AmusementPark.Application.Services
 
             if (item.Quantity <= 0)
             {
-                item.Quantity = 1;
+                throw new ArgumentException(
+                    "Quantity must be greater than zero.",
+                    nameof(item.Quantity));
             }
 
 
@@ -85,7 +87,46 @@ namespace AmusementPark.Application.Services
             _basketStore.SaveItems(basket);
         }
 
+        public void SetQuantity(
+    int gameId,
+    int quantity)
+        {
+            List<ShopBasketItemDto> basket =
+                _basketStore.GetItems();
 
+            ShopBasketItemDto? item =
+                basket.FirstOrDefault(
+                    x => x.GameID == gameId);
+
+            // اگر تعداد صفر یا کمتر باشد،
+            // بازی باید کاملاً از سبد حذف شود.
+            if (quantity <= 0)
+            {
+                if (item != null)
+                {
+                    basket.Remove(item);
+                    _basketStore.SaveItems(basket);
+                }
+
+                return;
+            }
+
+            // اگر بازی قبلاً در سبد وجود دارد،
+            // فقط تعداد آن را تنظیم کن.
+            if (item != null)
+            {
+                item.Quantity = quantity;
+
+                _basketStore.SaveItems(basket);
+
+                return;
+            }
+
+            // اگر بازی هنوز در سبد نیست،
+            // چیزی برای اضافه کردن نداریم؛
+            // Controller در این حالت باید اطلاعات بازی
+            // را ساخته و AddItem را صدا بزند.
+        }
         public void IncreaseQuantity(
             int gameId)
         {

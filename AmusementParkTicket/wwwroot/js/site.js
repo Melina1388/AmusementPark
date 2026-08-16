@@ -1002,23 +1002,108 @@ if (copyTrackingBtn) {
     });
 
 }
+    // =====================================================
+    // TICKET QUANTITY / HOME BASKET SYNC
+    // =====================================================
+    //
+    // این بخش فقط مربوط به کنترل تعداد بلیت بازی‌هاست.
+    //
+    // رفتار:
+    //
+    // 0 → 1
+    //   بازی جدید وارد سبد می‌شود
+    //   و پیام «بلیت اضافه شد» نمایش داده می‌شود.
+    //
+    // 1 → 2
+    // 2 → 3
+    // ...
+    //   فقط تعداد سبد بروزرسانی می‌شود.
+    //   پیام نمایش داده نمی‌شود.
+    //
+    // 1 → 0
+    //   بازی از سبد حذف می‌شود.
+    //
+    // همچنین تعداد اولیه از data-initial-quantity
+    // گرفته می‌شود تا وقتی کاربر از Basket به Home
+    // برمی‌گردد، تعداد قبلی همان بازی نمایش داده شود.
+    // =====================================================
 
-    // =====================================================
-    // TICKET QUANTITY PER GAME CARD
-    // =====================================================
 
     const ticketCounters =
         document.querySelectorAll(".ticket-counter");
+
 
     console.log(
         "Ticket counters found:",
         ticketCounters.length
     );
+
+
+    // =====================================================
+    // نمایش پیام اضافه شدن اولین بلیت
+    // =====================================================
+
+    function showTicketAddedMessage() {
+
+        const modal =
+            document.getElementById(
+                "ticket-success-modal"
+            );
+
+
+        if (!modal) {
+            return;
+        }
+
+
+        modal.classList.remove("hidden");
+    }
+
+
+    // =====================================================
+    // بستن پیام اضافه شدن بلیت
+    // =====================================================
+
+    const closeTicketMessage =
+        document.getElementById(
+            "close-ticket-message"
+        );
+
+
+    if (closeTicketMessage) {
+
+        closeTicketMessage.addEventListener(
+            "click",
+            function () {
+
+                const modal =
+                    document.getElementById(
+                        "ticket-success-modal"
+                    );
+
+
+                if (modal) {
+
+                    modal.classList.add(
+                        "hidden"
+                    );
+                }
+
+            }
+        );
+    }
+
+
+    // =====================================================
+    // ارسال تعداد بلیت به سبد خرید
+    // =====================================================
+
     async function updateBasketQuantity(
         gameId,
         quantity,
         showMessage = false
     ) {
+
         try {
 
             const tokenElement =
@@ -1026,10 +1111,12 @@ if (copyTrackingBtn) {
                     'input[name="__RequestVerificationToken"]'
                 );
 
+
             const token =
                 tokenElement
                     ? tokenElement.value
                     : "";
+
 
             const response =
                 await fetch(
@@ -1038,6 +1125,7 @@ if (copyTrackingBtn) {
                         method: "POST",
 
                         headers: {
+
                             "Content-Type":
                                 "application/json",
 
@@ -1046,30 +1134,49 @@ if (copyTrackingBtn) {
                         },
 
                         body: JSON.stringify({
-                            gameId: gameId,
-                            quantity: quantity
+
+                            gameId:
+                                gameId,
+
+                            quantity:
+                                quantity
                         })
                     }
                 );
 
+
             if (!response.ok) {
 
                 console.error(
-                    "خطا در بروزرسانی سبد خرید"
+                    "خطا در بروزرسانی سبد خرید:",
+                    response.status
                 );
 
                 return null;
             }
 
+
             const result =
                 await response.json();
 
+
+            // ---------------------------------------------
+            // پیام فقط زمانی نمایش داده شود که:
+            //
+            // 1. درخواست موفق باشد
+            // 2. بازی برای اولین بار وارد سبد شده باشد
+            // ---------------------------------------------
+
             if (
                 showMessage &&
+                result &&
+                result.success &&
                 result.isNewItem
             ) {
+
                 showTicketAddedMessage();
             }
+
 
             return result;
 
@@ -1085,397 +1192,366 @@ if (copyTrackingBtn) {
         }
     }
 
-    ticketCounters.forEach(function (counter) {
 
-        const toggle =
-            counter.querySelector(".ticket-toggle");
+    // =====================================================
+    // کنترل هر بازی
+    // =====================================================
 
-        const controls =
-            counter.querySelector(".ticket-controls");
-
-        const minus =
-            counter.querySelector(".ticket-minus");
-
-        const plus =
-            counter.querySelector(".ticket-plus");
-
-        const countElement =
-            counter.querySelector(".ticket-count");
+    ticketCounters.forEach(
+        function (counter) {
 
 
-        if (
-            !toggle ||
-            !controls ||
-            !minus ||
-            !plus ||
-            !countElement
-        ) {
+            // ---------------------------------------------
+            // عناصر مربوط به همین بازی
+            // ---------------------------------------------
 
-            console.error(
-                "Ticket counter structure is incomplete:",
-                counter
-            );
-
-            return;
-        }
-
-
-        let count = 0;
-
-
-        function render() {
-
-            countElement.textContent =
-                count.toString();
-
-
-            if (count === 0) {
-
-                toggle.hidden = false;
-                controls.hidden = true;
-
-            }
-            else {
-
-                toggle.hidden = true;
-                controls.hidden = false;
-
-            }
-        }
-
-
-        // انتخاب بلیت
-
-        toggle.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-                count = 1;
-
-                render();
-
-            }
-        );
-
-
-        // +
-
-        plus.addEventListener(
-            "click",
-            async function (event) {
-
-                event.preventDefault();
-
-                count++;
-
-                render();
-
-                const gameId =
-                    Number(
-                        toggle.dataset.gameId
-                    );
-
-                await updateBasketQuantity(
-                    gameId,
-                    count
+            const toggle =
+                counter.querySelector(
+                    ".ticket-toggle"
                 );
+
+
+            const controls =
+                counter.querySelector(
+                    ".ticket-controls"
+                );
+
+
+            const minus =
+                counter.querySelector(
+                    ".ticket-minus"
+                );
+
+
+            const plus =
+                counter.querySelector(
+                    ".ticket-plus"
+                );
+
+
+            const countElement =
+                counter.querySelector(
+                    ".ticket-count"
+                );
+
+
+            // ---------------------------------------------
+            // اگر ساختار HTML این بازی ناقص بود،
+            // فقط همین بازی را رد کن.
+            //
+            // روی صفحات دیگر هیچ اثری ندارد.
+            // ---------------------------------------------
+
+            if (
+                !toggle ||
+                !controls ||
+                !minus ||
+                !plus ||
+                !countElement
+            ) {
+
+                console.error(
+                    "Ticket counter structure is incomplete:",
+                    counter
+                );
+
+                return;
             }
-        );
 
 
-        // -
+            // =================================================
+            // شناسه بازی
+            // =================================================
 
-        minus.addEventListener(
-            "click",
-            async function (event) {
+            const gameId =
+                Number(
+                    counter.dataset.gameId ||
+                    toggle.dataset.gameId
+                );
 
-                event.preventDefault();
 
-                if (count <= 0) {
-                    return;
-                }
+            if (!gameId) {
 
-                count--;
+                console.error(
+                    "Invalid gameId:",
+                    counter
+                );
 
-                render();
+                return;
+            }
 
-                const gameId =
-                    Number(
-                        toggle.dataset.gameId
-                    );
+
+            // =================================================
+            // تعداد اولیه
+            // =================================================
+            //
+            // این مقدار از Home.cshtml می‌آید.
+            //
+            // مثال:
+            //
+            // data-initial-quantity="3"
+            //
+            // یعنی این بازی از قبل 3 بلیت در سبد دارد.
+            // =================================================
+
+            let count =
+                Number(
+                    counter.dataset.initialQuantity
+                ) || 0;
+
+
+            // =================================================
+            // بروزرسانی ظاهر
+            // =================================================
+
+            function render() {
+
+
+                countElement.textContent =
+                    count.toString();
+
+
+                // ---------------------------------------------
+                // اگر تعداد صفر است:
+                // دکمه «انتخاب بلیت» نمایش داده شود.
+                // ---------------------------------------------
 
                 if (count === 0) {
 
-                    // حذف کامل از سبد
-                    await updateBasketQuantity(
-                        gameId,
-                        0
+                    toggle.hidden =
+                        false;
+
+                    controls.hidden =
+                        true;
+
+                    toggle.setAttribute(
+                        "aria-expanded",
+                        "false"
                     );
 
                 }
+
+
+                // ---------------------------------------------
+                // اگر تعداد بیشتر از صفر است:
+                // کنترل + و - نمایش داده شود.
+                // ---------------------------------------------
+
                 else {
 
-                    await updateBasketQuantity(
-                        gameId,
-                        count
+                    toggle.hidden =
+                        true;
+
+                    controls.hidden =
+                        false;
+
+                    toggle.setAttribute(
+                        "aria-expanded",
+                        "true"
                     );
                 }
             }
-        );
 
 
-        render();
+            // =================================================
+            // انتخاب اولین بلیت
+            // =================================================
 
-    });
+            toggle.addEventListener(
+                "click",
+                async function (event) {
+
+                    event.preventDefault();
 
 
+                    // اگر قبلاً تعداد بیشتر از صفر است،
+                    // نباید دوباره بازی را اضافه کنیم.
+                    if (count > 0) {
+                        return;
+                    }
 
 
-});
+                    const oldCount =
+                        count;
 
 
+                    // -----------------------------------------
+                    // تغییر فوری UI
+                    // -----------------------------------------
+
+                    count =
+                        1;
+
+                    render();
 
 
-///////////////////contactus//////////////////////
-document.addEventListener("DOMContentLoaded", function () {
+                    // -----------------------------------------
+                    // ارسال واقعی به Session / Basket
+                    // -----------------------------------------
 
-    console.log("contact.js loaded");
+                    const result =
+                        await updateBasketQuantity(
+                            gameId,
+                            1,
+                            true
+                        );
 
-    const faDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
 
-    function toPersianDigits(value) {
-        return String(value).replace(/[0-9]/g, function (d) {
-            return faDigits[d];
-        });
-    }
+                    // -----------------------------------------
+                    // اگر درخواست شکست خورد،
+                    // ظاهر را به حالت قبلی برگردان.
+                    // -----------------------------------------
 
-    const confetti = document.getElementById("confetti");
+                    if (
+                        !result ||
+                        !result.success
+                    ) {
 
-    function burstConfetti(count) {
+                        count =
+                            oldCount;
 
-        if (!confetti) {
-            return;
+                        render();
+
+                        return;
+                    }
+
+                }
+            );
+
+
+            // =================================================
+            // افزایش تعداد +
+            // =================================================
+
+            plus.addEventListener(
+                "click",
+                async function (event) {
+
+                    event.preventDefault();
+
+
+                    const oldCount =
+                        count;
+
+
+                    count++;
+
+
+                    render();
+
+
+                    // -----------------------------------------
+                    // این بار پیام نمایش داده نمی‌شود.
+                    //
+                    // چون بازی قبلاً در سبد وجود دارد.
+                    // -----------------------------------------
+
+                    const result =
+                        await updateBasketQuantity(
+                            gameId,
+                            count,
+                            false
+                        );
+
+
+                    // -----------------------------------------
+                    // اگر سرور خطا داد،
+                    // مقدار قبلی را برگردان.
+                    // -----------------------------------------
+
+                    if (
+                        !result ||
+                        !result.success
+                    ) {
+
+                        count =
+                            oldCount;
+
+                        render();
+
+                        return;
+                    }
+
+                }
+            );
+
+
+            // =================================================
+            // کاهش تعداد -
+            // =================================================
+
+            minus.addEventListener(
+                "click",
+                async function (event) {
+
+                    event.preventDefault();
+
+
+                    if (count <= 0) {
+                        return;
+                    }
+
+
+                    const oldCount =
+                        count;
+
+
+                    count--;
+
+
+                    render();
+
+
+                    // -----------------------------------------
+                    // اگر تعداد به صفر رسید،
+                    // بازی کامل از سبد حذف می‌شود.
+                    // -----------------------------------------
+
+                    const result =
+                        await updateBasketQuantity(
+                            gameId,
+                            count,
+                            false
+                        );
+
+
+                    // -----------------------------------------
+                    // اگر سرور خطا داد،
+                    // مقدار قبلی را برگردان.
+                    // -----------------------------------------
+
+                    if (
+                        !result ||
+                        !result.success
+                    ) {
+
+                        count =
+                            oldCount;
+
+                        render();
+
+                        return;
+                    }
+
+                }
+            );
+
+
+            // =================================================
+            // اجرای وضعیت اولیه
+            // =================================================
+
+            render();
+
         }
-
-        const colors = ["#ff3d7f", "#00d9c0", "#ffc94d", "#9d7bff"];
-
-        for (let i = 0; i < count; i++) {
-
-            const piece = document.createElement("span");
-
-            piece.style.left = Math.random() * 100 + "%";
-            piece.style.background = colors[i % colors.length];
-            piece.style.animationDuration = (2.4 + Math.random() * 2.2) + "s";
-            piece.style.animationDelay = (Math.random() * 0.35) + "s";
-
-            confetti.appendChild(piece);
-
-            setTimeout(function () {
-                piece.remove();
-            }, 5200);
-        }
-    }
-
-    // =====================================================
-    // بازی «باز کردن جعبه‌های شگفتی» تیم
-    // =====================================================
-
-    const cards = document.querySelectorAll(".mystery-card");
-    const progressFill = document.getElementById("progressFill");
-    const progressPercent = document.getElementById("progressPercent");
-    const progressHint = document.getElementById("progressHint");
-
-    const total = cards.length;
-    let opened = 0;
-
-    function updateProgress() {
-
-        const percent = total > 0 ? Math.round((opened / total) * 100) : 0;
-
-        if (progressFill) {
-            progressFill.style.width = percent + "%";
-        }
-
-        if (progressPercent) {
-            progressPercent.textContent = toPersianDigits(percent) + "٪";
-        }
-
-        if (progressHint) {
-            progressHint.textContent = opened >= total && total > 0
-                ? "🎉 آفرین! کل تیم رو شناختی!"
-                : toPersianDigits(opened) + " از " + toPersianDigits(total) + " جعبه باز شد";
-        }
-    }
-
-    cards.forEach(function (card) {
-
-        function openCard() {
-
-            if (card.classList.contains("flipped")) {
-                return;
-            }
-
-            card.classList.add("flipped");
-            opened++;
-            updateProgress();
-            burstConfetti(16);
-        }
-
-        card.addEventListener("click", openCard);
-
-        card.addEventListener("keydown", function (event) {
-
-            if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                openCard();
-            }
-        });
-    });
-
-    updateProgress();
-
-    // =====================================================
-    // امتیازدهی با ستاره
-    // =====================================================
-
-    const starButtons = document.querySelectorAll(".star-btn");
-    const submitBtn = document.getElementById("submitRating");
-    const toast = document.getElementById("thankYouToast");
-
-    let selectedRating = Number(localStorage.getItem("parkRating")) || 0;
-
-    function paintStars(value) {
-
-        starButtons.forEach(function (btn) {
-
-            const starValue = Number(btn.dataset.value);
-
-            btn.classList.toggle("active", starValue <= value);
-        });
-    }
-
-    if (selectedRating > 0) {
-
-        paintStars(selectedRating);
-
-        if (submitBtn) {
-            submitBtn.classList.add("ready");
-        }
-    }
-
-    starButtons.forEach(function (btn) {
-
-        btn.addEventListener("mouseenter", function () {
-            paintStars(Number(btn.dataset.value));
-        });
-
-        btn.addEventListener("mouseleave", function () {
-            paintStars(selectedRating);
-        });
-
-        btn.addEventListener("click", function () {
-
-            selectedRating = Number(btn.dataset.value);
-
-            paintStars(selectedRating);
-
-            localStorage.setItem("parkRating", String(selectedRating));
-
-            if (submitBtn) {
-                submitBtn.classList.add("ready");
-            }
-        });
-    });
-
-    if (submitBtn) {
-
-        submitBtn.addEventListener("click", function () {
-
-            if (!selectedRating) {
-
-                submitBtn.classList.add("shake");
-
-                setTimeout(function () {
-                    submitBtn.classList.remove("shake");
-                }, 500);
-
-                return;
-            }
-
-            burstConfetti(26);
-
-            if (toast) {
-
-                toast.classList.add("show");
-
-                setTimeout(function () {
-                    toast.classList.remove("show");
-                }, 3200);
-            }
-        });
-    }
-
-});
-document.addEventListener("click", async function (event) {
-
-    const button =
-        event.target.closest(".ticket-toggle");
-
-    if (!button) {
-        return;
-    }
-
-    const counter =
-        button.closest(".ticket-counter");
-
-    if (!counter) {
-        return;
-    }
-
-    const gameId =
-        Number(button.dataset.gameId);
-
-    const countElement =
-        counter.querySelector(".ticket-count");
-
-    if (!gameId || !countElement) {
-        return;
-    }
-
-    const quantity =
-        Number(countElement.textContent);
-
-    if (quantity <= 0) {
-        return;
-    }
-
-    await updateBasketQuantity(
-        gameId,
-        quantity,
-        true
     );
+
+
+
+
 });
-function showTicketAddedMessage() {
-    const modal =
-        document.getElementById(
-            "ticket-success-modal");
 
-    if (!modal) {
-        return;
-    }
 
-    modal.classList.remove("hidden");
-}
-document.addEventListener("click", function (event) {
-    if (event.target.id === "close-ticket-message") {
-        const modal =
-            document.getElementById(
-                "ticket-success-modal");
 
-        if (modal) {
-            modal.classList.add("hidden");
-        }
-    }
-})
+
+

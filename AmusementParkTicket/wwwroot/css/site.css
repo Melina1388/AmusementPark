@@ -1096,357 +1096,6 @@ footer {
     background: var(--surface-2);
     color: var(--accent-gold);
 }
-
-/* ===== صفحه‌ی «تماس با ما» ===== */
-.contact-main {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 8px 20px 30px;
-}
-
-.contact-hero {
-    text-align: center;
-    padding: 26px 8px 6px;
-}
-
-.hero-badge {
-    display: inline-block;
-    background: var(--surface-2);
-    border: 1px solid rgba(255,255,255,.08);
-    color: var(--accent-gold);
-    font-size: .74rem;
-    font-weight: 700;
-    padding: 6px 14px;
-    border-radius: 20px;
-    margin-bottom: 12px;
-}
-
-.contact-hero h1 {
-    font-size: 1.7rem;
-    font-weight: 900;
-    margin: 0 0 12px;
-    background: linear-gradient(90deg, var(--accent-gold), var(--accent-pink));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
-.contact-hero p {
-    color: var(--text-muted);
-    font-size: .9rem;
-    line-height: 2;
-    max-width: 460px;
-    margin: 0 auto;
-}
-
-    .contact-hero p strong {
-        color: var(--accent-teal);
-    }
-
-/* ===== نوار پیشرفت کاوش ===== */
-.explore-progress {
-    background: var(--surface);
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    margin: 22px 0;
-}
-
-.progress-label {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: .8rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-#progressPercent {
-    color: var(--accent-gold);
-}
-
-.progress-track {
-    height: 12px;
-    border-radius: 10px;
-    background: var(--surface-2);
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    width: 0%;
-    border-radius: 10px;
-    background: linear-gradient(90deg, var(--accent-pink), var(--accent-gold), var(--accent-teal));
-    background-size: 200% 100%;
-    animation: gradient-shift 3s ease infinite;
-    transition: width .6s cubic-bezier(.34,1.56,.64,1);
-}
-
-.progress-hint {
-    margin-top: 10px;
-    font-size: .75rem;
-    color: var(--text-muted);
-    text-align: center;
-}
-
-/* ===== کارت‌های شگفتی اعضای تیم ===== */
-.team-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 18px;
-    margin: 26px 0;
-}
-
-@media (min-width: 620px) {
-    .team-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-.mystery-card {
-    perspective: 1200px;
-    height: 240px;
-    cursor: pointer;
-}
-
-    .mystery-card:focus-visible .mystery-inner {
-        outline: 2px solid var(--accent-gold);
-        outline-offset: 4px;
-        border-radius: var(--radius);
-    }
-
-.mystery-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform .7s cubic-bezier(.34,1.56,.64,1);
-    transform-style: preserve-3d;
-}
-
-.mystery-card.flipped .mystery-inner {
-    transform: rotateY(180deg);
-}
-
-.mystery-face {
-    position: absolute;
-    inset: 0;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    border-radius: var(--radius);
-    border: 1px solid rgba(255,255,255,.08);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 18px;
-    text-align: center;
-}
-
-.mystery-front {
-    background: linear-gradient(135deg, var(--accent-purple), var(--surface-2));
-    overflow: hidden;
-}
-
-    .mystery-front .gift-icon {
-        font-size: 2.6rem;
-        animation: bob 2.2s ease-in-out infinite;
-    }
-
-    .mystery-front p {
-        margin-top: 10px;
-        font-size: .78rem;
-        color: var(--text);
-        opacity: .9;
-    }
-
-.mystery-card:hover .mystery-front {
-    box-shadow: 0 14px 28px rgba(157,123,255,.28);
-}
-
-.spark {
-    position: absolute;
-    color: var(--accent-gold);
-    font-size: .9rem;
-    animation: twinkle 1.6s ease-in-out infinite alternate;
-}
-
-    .spark.s1 {
-        top: 16px;
-        left: 20px;
-    }
-
-    .spark.s2 {
-        bottom: 22px;
-        right: 22px;
-        animation-delay: .4s;
-    }
-
-    .spark.s3 {
-        top: 42%;
-        right: 16px;
-        animation-delay: .8s;
-    }
-
-.mystery-back {
-    background: var(--surface);
-    transform: rotateY(180deg);
-    gap: 5px;
-}
-
-    .mystery-back .avatar {
-        font-size: 2.1rem;
-    }
-
-    .mystery-back h3 {
-        margin: 2px 0 0;
-        font-size: 1rem;
-        font-weight: 900;
-    }
-
-.role-tag {
-    font-size: .7rem;
-    color: var(--accent-teal);
-    font-weight: 700;
-}
-
-.mystery-back .bio {
-    font-size: .76rem;
-    color: var(--text-muted);
-    margin: 6px 0 8px;
-    line-height: 1.8;
-}
-
-.contact-links {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-    .contact-links a {
-        font-size: .72rem;
-        color: var(--text);
-        background: var(--surface-2);
-        padding: 6px 10px;
-        border-radius: 10px;
-        text-decoration: none;
-        border: 1px solid rgba(255,255,255,.08);
-        transition: transform .2s ease, background .2s ease;
-    }
-
-        .contact-links a:hover {
-            background: var(--accent-purple);
-            transform: translateY(-2px);
-        }
-
-/* ===== بخش امتیازدهی با ستاره ===== */
-.rating-section {
-    background: var(--surface);
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: var(--radius);
-    padding: 26px 20px;
-    text-align: center;
-    margin: 26px 0 40px;
-    position: relative;
-    overflow: hidden;
-}
-
-    .rating-section h2 {
-        margin: 0 0 6px;
-        font-size: 1.15rem;
-        font-weight: 900;
-    }
-
-    .rating-section > p {
-        margin: 0 0 16px;
-        color: var(--text-muted);
-        font-size: .85rem;
-    }
-
-.stars-input {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    direction: ltr;
-    margin-bottom: 18px;
-}
-
-.star-btn {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    line-height: 1;
-    cursor: pointer;
-    color: rgba(255,255,255,.18);
-    padding: 2px;
-    transition: transform .15s ease, color .15s ease;
-}
-
-    .star-btn:hover {
-        transform: scale(1.15);
-    }
-
-    .star-btn.active {
-        color: var(--accent-gold);
-        text-shadow: 0 0 10px rgba(255,201,77,.6);
-    }
-
-.rating-submit {
-    max-width: 220px;
-    margin: 0 auto;
-    opacity: .55;
-}
-
-    .rating-submit.ready {
-        opacity: 1;
-    }
-
-    .rating-submit.shake {
-        animation: shake .4s ease;
-    }
-
-@keyframes shake {
-    0%, 100% {
-        transform: translateX(0);
-    }
-
-    25% {
-        transform: translateX(-6px);
-    }
-
-    75% {
-        transform: translateX(6px);
-    }
-}
-
-.rating-stats {
-    margin-top: 16px;
-    font-size: .78rem;
-    color: var(--text-muted);
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-}
-
-.thank-you-toast {
-    position: absolute;
-    left: 50%;
-    bottom: -70px;
-    transform: translateX(-50%);
-    background: linear-gradient(90deg, var(--accent-gold), var(--accent-pink));
-    color: #1a1030;
-    font-weight: 700;
-    font-size: .8rem;
-    padding: 10px 18px;
-    border-radius: 14px;
-    white-space: nowrap;
-    box-shadow: 0 10px 24px rgba(255,61,127,.35);
-    transition: bottom .5s cubic-bezier(.34,1.56,.64,1);
-}
-
-    .thank-you-toast.show {
-        bottom: 18px;
-    }
 /* ===== شمارنده تعداد بلیت ===== */
 
 .ticket-counter {
@@ -2408,10 +2057,10 @@ html {
     max-width: 420px;
     padding: 30px;
     text-align: center;
-    background: #fff;
+    background: linear-gradient(180deg, var(--surface) 0%, rgba(30,27,63,.96) 100%);
     border-radius: 16px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    color:black;
+    color: white;
 }
 
 .ticket-message-close {
@@ -2422,6 +2071,7 @@ html {
     background: transparent;
     font-size: 28px;
     cursor: pointer;
+    color: white;
 }
 
 .ticket-message-icon {
@@ -2433,7 +2083,8 @@ html {
     margin: 0 auto 15px;
     border-radius: 50%;
     font-size: 30px;
-    background: #e8f7ee;
+    background: aquamarine;
+    color:green;
 }
 
 .ticket-message-box h3 {
@@ -2449,5 +2100,6 @@ html {
     padding: 10px 20px;
     border-radius: 8px;
     text-decoration: none;
+    color:lightblue;
 }
 

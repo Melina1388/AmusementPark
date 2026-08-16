@@ -52,49 +52,38 @@ namespace AmusementPark.wb.Controllers
                     message = "تعداد بلیت نامعتبر است."
                 });
             }
-            // بررسی وجود بازی در سبد
+
             bool alreadyExists =
                 _shopBasketService.ContainsGame(
                     request.GameId);
 
-            // اگر بازی از قبل در سبد وجود دارد،
-            // تعداد آن را به تعداد انتخاب‌شده در Home تغییر بده
+            // ============================================
+            // اگر تعداد صفر شده، بازی را حذف کن
+            // ============================================
+
+            if (quantity == 0)
+            {
+                _shopBasketService.RemoveItem(
+                    request.GameId);
+
+                return Ok(new
+                {
+                    success = true,
+                    isNewItem = false,
+                    quantity = 0
+                });
+            }
+
+            // ============================================
+            // اگر بازی قبلاً در سبد هست،
+            // فقط تعداد را مستقیم تنظیم کن
+            // ============================================
+
             if (alreadyExists)
             {
-                var basket =
-                    _shopBasketService.GetBasket();
-
-                var existingItem =
-                    basket.FirstOrDefault(
-                        x => x.GameID == request.GameId);
-
-                if (existingItem != null)
-                {
-                    int difference =
-                        quantity - existingItem.Quantity;
-
-                    if (quantity == 0)
-                    {
-                        _shopBasketService
-                            .RemoveItem(request.GameId);
-                    }
-                    else if (difference > 0)
-                    {
-                        for (int i = 0; i < difference; i++)
-                        {
-                            _shopBasketService
-                                .IncreaseQuantity(request.GameId);
-                        }
-                    }
-                    else if (difference < 0)
-                    {
-                        for (int i = 0; i < Math.Abs(difference); i++)
-                        {
-                            _shopBasketService
-                                .DecreaseQuantity(request.GameId);
-                        }
-                    }
-                }
+                _shopBasketService.SetQuantity(
+                    request.GameId,
+                    quantity);
 
                 return Ok(new
                 {
@@ -104,7 +93,10 @@ namespace AmusementPark.wb.Controllers
                 });
             }
 
-            // پیدا کردن بازی
+            // ============================================
+            // بازی هنوز در سبد نیست
+            // ============================================
+
             Game? game =
                 _gameService.GetById(
                     request.GameId);
@@ -118,7 +110,6 @@ namespace AmusementPark.wb.Controllers
                 });
             }
 
-            // ساخت آیتم سبد با تعداد واقعی انتخاب‌شده
             ShopBasketItemDto item =
                 new ShopBasketItemDto
                 {
@@ -143,7 +134,12 @@ namespace AmusementPark.wb.Controllers
             return Ok(new
             {
                 success = true,
+
+                // فقط این حالت باید پیام
+                // «بلیت با موفقیت ثبت شد»
+                // را نمایش دهد.
                 isNewItem = true,
+
                 quantity = quantity
             });
         }

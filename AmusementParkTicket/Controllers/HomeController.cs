@@ -2,17 +2,20 @@
 using AmusementPark.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using AmusementPark.Domain.Entities;
-
+using AmusementPark.Application.Interfaces;
 public class HomeController : Controller
 {
     private readonly APIService _apiService;
 
-    public HomeController(APIService apiService)
+    private readonly IShopBasketService _shopBasketService;
+    public HomeController(
+     APIService apiService,
+     IShopBasketService shopBasketService)
     {
         _apiService = apiService;
+        _shopBasketService = shopBasketService;
     }
 
-   
     [HttpGet]
     public async Task<IActionResult> Home(string? search)
     {
@@ -44,7 +47,17 @@ public class HomeController : Controller
 
             throw;
         }
+        // -----------------------------------------
+        // دریافت تعداد بلیت‌های موجود در سبد خرید
+        // -----------------------------------------
 
+        var basket =
+            _shopBasketService.GetBasket();
+
+        var basketQuantities =
+            basket.ToDictionary(
+                x => x.GameID,
+                x => x.Quantity);
 
         // -----------------------------------------
         // گروه‌بندی بازی‌ها بر اساس شهربازی
