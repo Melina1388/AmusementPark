@@ -51,7 +51,36 @@
 
 </div>
 
+<div id="ticket-success-modal"
+     class="ticket-message-overlay hidden">
 
+    <div class="ticket-message-box">
+
+        <button type="button"
+                id="close-ticket-message"
+                class="ticket-message-close">
+            ×
+        </button>
+
+        <div class="ticket-message-icon">
+            ✓
+        </div>
+
+        <h3>بلیت با موفقیت ثبت شد</h3>
+
+        <p>
+            بلیت شما به سبد خرید اضافه شد.
+        </p>
+
+        <a href="/ShopBasket/ShopBasket"
+           class="ticket-message-cart-link">
+            مشاهده سبد خرید
+        </a>
+
+    </div>
+
+</div>
+@Html.AntiForgeryToken()
 <!-- ===== بخش‌های شهربازی ===== -->
 <main id="parksContainer">
 
@@ -147,7 +176,7 @@
                                 <!-- دکمه اولیه -->
                                 <button type="button"
                                         class="ticket-toggle"
-                                        aria-expanded="false">
+                                        aria-expanded="false" data-game-id="@game.GameID">
                                     🎟️ انتخاب بلیت
                                 </button>
 

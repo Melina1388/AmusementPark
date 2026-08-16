@@ -2469,4 +2469,74 @@ html {
     }
 }
 
+.hidden {
+    display: none;
+}
+
+.ticket-success-message {
+    padding: 12px;
+    margin-bottom: 20px;
+}
+.ticket-message-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 9999;
+}
+
+    .ticket-message-overlay.hidden {
+        display: none;
+    }
+
+.ticket-message-box {
+    position: relative;
+    width: 90%;
+    max-width: 420px;
+    padding: 30px;
+    text-align: center;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    color:black;
+}
+
+.ticket-message-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.ticket-message-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    font-size: 30px;
+    background: #e8f7ee;
+}
+
+.ticket-message-box h3 {
+    margin-bottom: 10px;
+}
+
+.ticket-message-box p {
+    margin-bottom: 20px;
+}
+
+.ticket-message-cart-link {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+}
 

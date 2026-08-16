@@ -1014,7 +1014,76 @@ if (copyTrackingBtn) {
         "Ticket counters found:",
         ticketCounters.length
     );
+    async function updateBasketQuantity(
+        gameId,
+        quantity,
+        showMessage = false
+    ) {
+        try {
 
+            const tokenElement =
+                document.querySelector(
+                    'input[name="__RequestVerificationToken"]'
+                );
+
+            const token =
+                tokenElement
+                    ? tokenElement.value
+                    : "";
+
+            const response =
+                await fetch(
+                    "/ShopBasket/SelectTicket",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "RequestVerificationToken":
+                                token
+                        },
+
+                        body: JSON.stringify({
+                            gameId: gameId,
+                            quantity: quantity
+                        })
+                    }
+                );
+
+            if (!response.ok) {
+
+                console.error(
+                    "خطا در بروزرسانی سبد خرید"
+                );
+
+                return null;
+            }
+
+            const result =
+                await response.json();
+
+            if (
+                showMessage &&
+                result.isNewItem
+            ) {
+                showTicketAddedMessage();
+            }
+
+            return result;
+
+        }
+        catch (error) {
+
+            console.error(
+                "Basket update error:",
+                error
+            );
+
+            return null;
+        }
+    }
 
     ticketCounters.forEach(function (counter) {
 
@@ -1095,7 +1164,7 @@ if (copyTrackingBtn) {
 
         plus.addEventListener(
             "click",
-            function (event) {
+            async function (event) {
 
                 event.preventDefault();
 
@@ -1103,6 +1172,15 @@ if (copyTrackingBtn) {
 
                 render();
 
+                const gameId =
+                    Number(
+                        toggle.dataset.gameId
+                    );
+
+                await updateBasketQuantity(
+                    gameId,
+                    count
+                );
             }
         );
 
@@ -1111,18 +1189,39 @@ if (copyTrackingBtn) {
 
         minus.addEventListener(
             "click",
-            function (event) {
+            async function (event) {
 
                 event.preventDefault();
 
-                if (count > 0) {
-
-                    count--;
-
+                if (count <= 0) {
+                    return;
                 }
+
+                count--;
 
                 render();
 
+                const gameId =
+                    Number(
+                        toggle.dataset.gameId
+                    );
+
+                if (count === 0) {
+
+                    // حذف کامل از سبد
+                    await updateBasketQuantity(
+                        gameId,
+                        0
+                    );
+
+                }
+                else {
+
+                    await updateBasketQuantity(
+                        gameId,
+                        count
+                    );
+                }
             }
         );
 
@@ -1319,3 +1418,64 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+document.addEventListener("click", async function (event) {
+
+    const button =
+        event.target.closest(".ticket-toggle");
+
+    if (!button) {
+        return;
+    }
+
+    const counter =
+        button.closest(".ticket-counter");
+
+    if (!counter) {
+        return;
+    }
+
+    const gameId =
+        Number(button.dataset.gameId);
+
+    const countElement =
+        counter.querySelector(".ticket-count");
+
+    if (!gameId || !countElement) {
+        return;
+    }
+
+    const quantity =
+        Number(countElement.textContent);
+
+    if (quantity <= 0) {
+        return;
+    }
+
+    await updateBasketQuantity(
+        gameId,
+        quantity,
+        true
+    );
+});
+function showTicketAddedMessage() {
+    const modal =
+        document.getElementById(
+            "ticket-success-modal");
+
+    if (!modal) {
+        return;
+    }
+
+    modal.classList.remove("hidden");
+}
+document.addEventListener("click", function (event) {
+    if (event.target.id === "close-ticket-message") {
+        const modal =
+            document.getElementById(
+                "ticket-success-modal");
+
+        if (modal) {
+            modal.classList.add("hidden");
+        }
+    }
+})

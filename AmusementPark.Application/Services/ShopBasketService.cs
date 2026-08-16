@@ -20,7 +20,15 @@ namespace AmusementPark.Application.Services
             _basketStore = basketStore;
         }
 
+        public bool ContainsGame(
+    int gameId)
+        {
+            List<ShopBasketItemDto> basket =
+                _basketStore.GetItems();
 
+            return basket.Any(
+                x => x.GameID == gameId);
+        }
         public List<ShopBasketItemDto> GetBasket()
         {
             return _basketStore.GetItems();

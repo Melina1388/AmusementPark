@@ -7,10 +7,13 @@ namespace AmusementPark.Application.Interfaces
     /// </summary>
     public interface IShopBasketService
     {
+       
         List<ShopBasketItemDto> GetBasket();
 
         void AddItem(
             ShopBasketItemDto item);
+        bool ContainsGame(
+        int gameId);
 
         void IncreaseQuantity(
             int gameId);
