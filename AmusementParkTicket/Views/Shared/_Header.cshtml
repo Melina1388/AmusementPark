@@ -1,0 +1,66 @@
+﻿<!-- ===== هدر ===== -->
+<header>
+    <div class="logo"><span class="bulb"></span> بلیط<span class="dot">شهربازی</span></div>
+    <button class="menu-btn" id="menuBtn" aria-label="باز کردن منو"><span></span><span></span><span></span></button>
+</header>
+
+<!-- ===== ساید‌بار ===== -->
+
+<div class="overlay" id="overlay"></div>
+
+<aside class="sidebar" id="sidebar">
+    <h2>
+        منو
+    </h2>
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <div class="logged-user">
+            👤 @User.Identity.Name
+        </div>
+    }
+
+
+    <a asp-controller="Home"
+       asp-action="Home">
+        🏠 خانه
+    </a>
+
+
+    <a asp-controller="ShopBasket"
+       asp-action="ShopBasket">
+        🛒 سبد خرید
+    </a>
+
+
+    <a href="#">
+        🎟️ بلیط‌های من
+    </a>
+
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <a asp-controller="Login"
+           asp-action="Logout">
+
+            🚪 خروج
+
+        </a>
+    }
+    else
+    {
+        <a asp-controller="Login"
+           asp-action="Login">
+
+            👤 حساب کاربری
+
+        </a>
+    }
+
+
+    <a asp-controller="Contact"
+       asp-action="Contact">
+        📞 تماس با ما
+    </a>
+
+</aside>

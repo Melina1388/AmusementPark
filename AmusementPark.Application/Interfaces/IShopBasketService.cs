@@ -1,0 +1,28 @@
+﻿using AmusementPark.Application.DTOs;
+
+namespace AmusementPark.Application.Interfaces
+{
+    /// <summary>
+    /// منطق کسب‌وکار مربوط به سبد خرید.
+    /// </summary>
+    public interface IShopBasketService
+    {
+        List<ShopBasketItemDto> GetBasket();
+
+        void AddItem(
+            ShopBasketItemDto item);
+
+        void IncreaseQuantity(
+            int gameId);
+
+        void DecreaseQuantity(
+            int gameId);
+
+        void RemoveItem(
+            int gameId);
+
+        decimal GetTotal();
+
+        void Clear();
+    }
+}

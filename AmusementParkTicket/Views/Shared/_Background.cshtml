@@ -1,0 +1,165 @@
+﻿<!-- ===== Background ===== -->
+
+<div class="stars"></div>
+
+<div class="balloons">
+    <div class="balloon b1"></div>
+    <div class="balloon b2"></div>
+    <div class="balloon b3"></div>
+    <div class="balloon b4"></div>
+    <div class="balloon b5"></div>
+</div>
+
+<div class="confetti" id="confetti"></div>
+
+<!-- ===== Ferris Wheel ===== -->
+
+<div class="ferris-wrap">
+
+    <svg width="900"
+         height="900"
+         viewBox="0 0 300 300">
+
+        <defs>
+
+            <radialGradient id="hubGlow"
+                            cx="50%"
+                            cy="50%"
+                            r="50%">
+
+                <stop offset="0%"
+                      stop-color="#ffffff" />
+
+                <stop offset="100%"
+                      stop-color="#9d7bff"
+                      stop-opacity="0" />
+
+            </radialGradient>
+
+        </defs>
+
+        <g class="wheel-spin">
+
+            <circle cx="150"
+                    cy="150"
+                    r="112"
+                    fill="none"
+                    stroke="rgba(255,255,255,.22)"
+                    stroke-width="4" />
+
+            <circle cx="150"
+                    cy="150"
+                    r="96"
+                    fill="none"
+                    stroke="rgba(255,255,255,.1)"
+                    stroke-width="2"
+                    stroke-dasharray="3 7" />
+
+            <g stroke="rgba(255,255,255,.14)"
+               stroke-width="3">
+
+                <line x1="150" y1="150"
+                      x2="150" y2="38" />
+
+                <line x1="150" y1="150"
+                      x2="229.2" y2="70.8" />
+
+                <line x1="150" y1="150"
+                      x2="262" y2="150" />
+
+                <line x1="150" y1="150"
+                      x2="229.2" y2="229.2" />
+
+                <line x1="150" y1="150"
+                      x2="150" y2="262" />
+
+                <line x1="150" y1="150"
+                      x2="70.8" y2="229.2" />
+
+                <line x1="150" y1="150"
+                      x2="38" y2="150" />
+
+                <line x1="150" y1="150"
+                      x2="70.8" y2="70.8" />
+
+            </g>
+
+            <g transform="translate(150,38)">
+                <g class="counter-spin">
+                    <circle r="11"
+                            class="gondola g1"
+                            fill="#ff3d7f" />
+                </g>
+            </g>
+
+            <g transform="translate(229.2,70.8)">
+                <g class="counter-spin">
+                    <circle r="11"
+                            class="gondola g2"
+                            fill="#ffc94d" />
+                </g>
+            </g>
+
+            <g transform="translate(262,150)">
+                <g class="counter-spin">
+                    <circle r="11"
+                            class="gondola g3"
+                            fill="#00d9c0" />
+                </g>
+            </g>
+
+            <g transform="translate(229.2,229.2)">
+                <g class="counter-spin">
+                    <circle r="11"
+                            class="gondola g4"
+                            fill="#9d7bff" />
+                </g>
+            </g>
+
+            <g transform="translate(150,262)">
+                <g class="counter-spin">
+                    <circle r="11"
+                            class="gondola g1"
+                            fill="#ff3d7f" />
+                </g>
+            </g>
+
+            <g transform="translate(70.8,229.2)">
+                <g class="counter-spin">
+                    <circle r="11"
+                            class="gondola g2"
+                            fill="#ffc94d" />
+                </g>
+            </g>
+
+            <g transform="translate(38,150)">
+                <g class="counter-spin">
+                    <circle r="11"
+                            class="gondola g3"
+                            fill="#00d9c0" />
+                </g>
+            </g>
+
+            <g transform="translate(70.8,70.8)">
+                <g class="counter-spin">
+                    <circle r="11"
+                            class="gondola g4"
+                            fill="#9d7bff" />
+                </g>
+            </g>
+
+        </g>
+
+        <circle cx="150"
+                cy="150"
+                r="26"
+                fill="url(#hubGlow)" />
+
+        <circle cx="150"
+                cy="150"
+                r="8"
+                fill="#f5f3ff" />
+
+    </svg>
+
+</div>

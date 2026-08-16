@@ -1,0 +1,95 @@
+﻿@model AmusementPark.wb.ViewModels.PaymentViewModel
+<div class="confetti" id="confetti"></div>
+<partial name="_Header" />
+
+<div class="pay-wrap">
+    <h1 class="page-title">💳 پرداخت بلیط</h1>
+
+    <div id="formSection">
+        <div class="pay-total-strip">
+            <span class="label">مبلغ قابل پرداخت</span>
+            <span class="amount">
+                @Model.TotalAmount.ToString("N0") تومان
+            </span>
+        </div>
+
+        <div class="card-3d-wrap">
+            <div class="card-3d" id="card3d">
+                <div class="card-face card-front">
+                    <div class="chip-row"><div class="chip"></div><div class="brand">بلیط‌شهربازی</div></div>
+                    <div class="card-number" id="previewCardNumber">•••• •••• •••• ••••</div>
+                    <div class="card-meta-row"><span id="previewCardHolder">CARD HOLDER</span><span id="previewExpiry">MM/YY</span></div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="magnetic-strip"></div>
+                    <div class="cvv-strip"><span id="previewCvv">•••</span></div>
+                </div>
+            </div>
+        </div>
+
+        <form id="paymentForm" asp-controller="Payment"
+              asp-action="Payment"
+              method="post">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label class="form-label">شماره کارت</label>
+                <input id="cardNumberInput" name="CardNumber" class="form-input ltr" inputmode="numeric" maxlength="19" placeholder="1234 1234 1234 1234">
+                <span class="field-error" id="cardNumberError"></span>
+            </div>
+            <div class="form-group">
+                <label class="form-label">نام دارنده‌ی کارت</label>
+                <input id="cardHolderInput" name="CardHolderName"  class="form-input" placeholder="به لاتین یا فارسی">
+                <span class="field-error" id="cardHolderError"></span>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">تاریخ انقضا</label>
+                    <input id="expiryInput" name="Expiry" class="form-input ltr" inputmode="numeric" maxlength="5" placeholder="MM/YY">
+                    <span class="field-error" id="expiryError"></span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">CVV2</label>
+                    <input id="cvvInput" name="CVV" class="form-input ltr" inputmode="numeric" maxlength="4" placeholder="***">
+                    <span class="field-error" id="cvvError"></span>
+                </div>
+            </div>
+            <button type="submit"
+                    class="submit-btn"
+                    id="payBtn">
+
+                <span class="spinner"></span>
+
+                <span class="btn-text">
+                    پرداخت نهایی
+                </span>
+
+            </button>
+
+     
+        </form>
+    </div>
+
+    <div class="pay-success" id="successSection">
+        <div class="check-circle">✔</div>
+        <h1>پرداخت با موفقیت انجام شد!</h1>
+        <p>بلیط‌هات آماده‌ست. لذت ببر 🎉</p>
+
+        <div class="tracking-row">
+            <div>
+                <span class="tracking-label">کد پیگیری سفارش</span>
+                <span class="tracking-code" id="trackingCodeText">—</span>
+            </div>
+            <button type="button" class="copy-btn" id="copyTrackingBtn" aria-label="کپی کد پیگیری">
+                📋
+                <span class="copied-tooltip">کپی شد ✔</span>
+            </button>
+        </div>
+
+        <div class="receipt-ticket">
+            <div class="row"><span>شماره سفارش</span><b id="receiptOrderId">#000482</b></div>
+            <div class="row"><span>دارنده‌ی کارت</span><b id="receiptHolder">—</b></div>
+            <div class="row"><span>شماره کارت</span><b id="receiptCard">—</b></div>
+            <div class="row"><span>مبلغ پرداخت‌شده</span><b>۸۷۰,۰۰۰ تومان</b></div>
+        </div>
+    </div>
+</div>

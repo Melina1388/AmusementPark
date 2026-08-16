@@ -96,27 +96,66 @@ public class TransactionRepository : ITransactionRepository
         return transactions;
     }
 
-    public void Add(Transaction transaction)
+    public int Add(Transaction transaction)
     {
-        using OleDbConnection connection = AccessConnection.GetConnection();
+        using OleDbConnection connection =
+            AccessConnection.GetConnection();
 
         connection.Open();
 
+
         string query =
-            @"INSERT INTO Transaction
-            (PlayerID, CardNum, TotalPrice, TrackingNum)
-            VALUES (?,?,?,?)";
+            @"INSERT INTO [Transaction]
+        (PlayerID, CardNum, TotalPrice, TrackingNum)
+        VALUES (?,?,?,?)";
 
-        using OleDbCommand command = new(query, connection);
 
-        command.Parameters.AddWithValue("@PlayerID", transaction.PlayerID);
-        command.Parameters.AddWithValue("@CardNum", transaction.CardNum);
-        command.Parameters.AddWithValue("@TotalPrice", transaction.TotalPrice);
-        command.Parameters.AddWithValue("@TrackingNum", transaction.TrackingNum);
+        using OleDbCommand command =
+            new(query, connection);
+
+
+        command.Parameters.AddWithValue(
+            "@PlayerID",
+            transaction.PlayerID);
+
+        command.Parameters.AddWithValue(
+            "@CardNum",
+            transaction.CardNum);
+
+        command.Parameters.AddWithValue(
+            "@TotalPrice",
+            transaction.TotalPrice);
+
+        command.Parameters.AddWithValue(
+            "@TrackingNum",
+            transaction.TrackingNum);
+
 
         command.ExecuteNonQuery();
-    }
 
+
+        // دریافت ID رکورد تازه ایجاد شده
+
+        command.CommandText =
+            "SELECT @@IDENTITY";
+
+        command.Parameters.Clear();
+
+
+        object result =
+            command.ExecuteScalar();
+
+
+        int transactionId =
+            Convert.ToInt32(result);
+
+
+        transaction.TransactionID =
+            transactionId;
+
+
+        return transactionId;
+    }
     public void Update(Transaction transaction)
     {
         using OleDbConnection connection = AccessConnection.GetConnection();

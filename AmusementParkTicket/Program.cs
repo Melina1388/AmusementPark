@@ -2,6 +2,7 @@
 using AmusementPark.Application.Services;
 using AmusementPark.Domain.Interfaces;
 using AmusementPark.Infrastructure.Repositories;
+using AmusementPark.wb.Services;
 using AmusementPark.Web.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -30,7 +31,11 @@ builder.Services.AddSession(options =>
 
     options.Cookie.SameSite = SameSiteMode.Lax;
 });
+builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddScoped<
+    IShopBasketStore,
+    SessionShopBasketStore>();
 
 // =====================================================
 // Authentication
@@ -116,6 +121,14 @@ builder.Services.AddScoped<
     TransactionService>();
 
 
+builder.Services.AddScoped<
+    IShopBasketService,
+    ShopBasketService>();
+
+
+builder.Services.AddScoped<
+    IPaymentService,
+    PaymentService>();
 // =====================================================
 // API Service
 // =====================================================

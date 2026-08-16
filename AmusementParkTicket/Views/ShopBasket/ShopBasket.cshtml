@@ -1,57 +1,169 @@
-﻿
-<header>
-    <div class="logo"><span class="bulb"></span> بلیط<span class="dot">شهربازی</span></div>
-</header>
+﻿@model List<AmusementPark.Application.DTOs.ShopBasketItemDto>
+
+<partial name="_Background" />
+
+<partial name="_Header" />
+
 
 <div class="cart-wrap" id="cartWrap">
+
     <h1 class="page-title">🛒 سبد خرید</h1>
 
-    <section class="cart-park-group" data-park-group>
-        <h2 class="cart-park-title"><span class="emoji-spin">🎡</span> شهربازی ارم</h2>
+    @if (Model == null || !Model.Any())
+    {
+        <div class="cart-empty">
+            <div class="big-emoji">🛒</div>
 
-        <div class="cart-row" data-cart-row data-unit-price="180000" data-quantity="2">
-            <div class="cart-row-icon">🎫</div>
-            <div class="cart-row-info"><p class="ride-name">ترن هوایی</p><span class="unit-price">۱۸۰,۰۰۰ تومان / بلیط</span></div>
-            <div class="qty-stepper">
-                <button type="button" class="qty-btn" data-qty-decrease>−</button>
-                <span class="qty-value" data-qty-value>2</span>
-                <button type="button" class="qty-btn" data-qty-increase>+</button>
-            </div>
-            <div class="line-total" data-line-total>360,000</div>
+            <h2>سبد خرید شما خالی است</h2>
+
+            <a asp-controller="Home"
+               asp-action="Home"
+               class="submit-btn"
+               style="text-decoration:none;">
+                بازگشت به فروشگاه
+            </a>
         </div>
+    }
+    else
+    {
+        @foreach (var group in Model.GroupBy(x => x.AmusementName))
+        {
+            <section class="cart-park-group">
 
-        <div class="cart-row" data-cart-row data-unit-price="90000" data-quantity="1">
-            <div class="cart-row-icon">🎫</div>
-            <div class="cart-row-info"><p class="ride-name">چرخ و فلک</p><span class="unit-price">۹۰,۰۰۰ تومان / بلیط</span></div>
-            <div class="qty-stepper">
-                <button type="button" class="qty-btn" data-qty-decrease>−</button>
-                <span class="qty-value" data-qty-value>1</span>
-                <button type="button" class="qty-btn" data-qty-increase>+</button>
-            </div>
-            <div class="line-total" data-line-total>90,000</div>
-        </div>
-    </section>
+                <h2 class="cart-park-title">
+                    <span class="emoji-spin">🎡</span>
+                    @group.Key
+                </h2>
 
-    <section class="cart-park-group" data-park-group>
-        <h2 class="cart-park-title"><span class="emoji-spin">🎡</span> شهربازی بسیج</h2>
+                @foreach (var item in group)
+                {
+                    <div class="cart-row">
 
-        <div class="cart-row" data-cart-row data-unit-price="140000" data-quantity="3">
-            <div class="cart-row-icon">🎫</div>
-            <div class="cart-row-info"><p class="ride-name">قطار وحشت</p><span class="unit-price">۱۴۰,۰۰۰ تومان / بلیط</span></div>
-            <div class="qty-stepper">
-                <button type="button" class="qty-btn" data-qty-decrease>−</button>
-                <span class="qty-value" data-qty-value>3</span>
-                <button type="button" class="qty-btn" data-qty-increase>+</button>
-            </div>
-            <div class="line-total" data-line-total>420,000</div>
-        </div>
-    </section>
+                        <div class="cart-row-icon">
+                            🎫
+                        </div>
+
+                        <div class="cart-row-info">
+
+                            <p class="ride-name">
+                                @item.GameName
+                            </p>
+
+                            <span class="unit-price">
+                                @item.GamePrice.ToString("N0")
+                                تومان / بلیط
+                            </span>
+
+                        </div>
+
+
+                        <div class="qty-stepper">
+
+                            <form asp-action="Decrease"
+                                  method="post">
+
+                                <input type="hidden"
+                                       name="gameId"
+                                       value="@item.GameID" />
+
+                                <button type="submit"
+                                        class="qty-btn">
+                                    −
+                                </button>
+
+                            </form>
+
+
+                            <span class="qty-value">
+                                @item.Quantity
+                            </span>
+
+
+                            <form asp-action="Increase"
+                                  method="post">
+
+                                <input type="hidden"
+                                       name="gameId"
+                                       value="@item.GameID" />
+
+                                <button type="submit"
+                                        class="qty-btn">
+                                    +
+                                </button>
+
+                            </form>
+
+                        </div>
+
+
+                        <div class="line-total">
+
+                            @item.TotalPrice.ToString("N0")
+
+                            تومان
+
+                        </div>
+
+
+                        <form asp-action="Remove"
+                              method="post">
+
+                            <input type="hidden"
+                                   name="gameId"
+                                   value="@item.GameID" />
+
+                            <button type="submit"
+                                    class="remove-btn"
+                                    aria-label="حذف">
+
+                                🗑️
+
+                            </button>
+
+                        </form>
+
+                    </div>
+                }
+
+            </section>
+        }
+    }
+
 </div>
 
-<div class="cart-total-bar" id="totalBar">
-    <div>
-        <div class="total-label">مجموع سبد خرید</div>
-        <div class="total-value"><span data-grand-total>870,000</span> تومان</div>
+
+@if (Model != null && Model.Any())
+{
+    decimal total =
+        Model.Sum(x => x.TotalPrice);
+
+
+    <div class="cart-total-bar">
+
+        <div>
+
+            <div class="total-label">
+                مجموع سبد خرید
+            </div>
+
+            <div class="total-value">
+
+                @total.ToString("N0")
+
+                تومان
+
+            </div>
+
+        </div>
+
+
+        <a asp-controller="Payment"
+           asp-action="Payment"
+           class="checkout-btn">
+
+            پرداخت
+
+        </a>
+
     </div>
-    <a class="checkout-btn" href="#">پرداخت</a>
-</div>
+}

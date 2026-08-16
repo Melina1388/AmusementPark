@@ -4,42 +4,84 @@ using AmusementPark.Domain.Interfaces;
 
 namespace AmusementPark.Application.Services
 {
+
+    /// منطق مربوط به تراکنش‌ها.
+    /// 
+    /// این کلاس فقط با Interface مربوط به Repository
+    /// کار می‌کند و از Database اطلاعی ندارد.
+
     public class TransactionService : ITransactionService
     {
         private readonly ITransactionRepository _transactionRepository;
 
-        public TransactionService(ITransactionRepository transactionRepository)
+        public TransactionService(
+            ITransactionRepository transactionRepository)
         {
             _transactionRepository = transactionRepository;
         }
+
 
         public List<Transaction> GetAll()
         {
             return _transactionRepository.GetAll();
         }
 
+
         public Transaction? GetById(int id)
         {
             return _transactionRepository.GetById(id);
         }
 
-        public List<Transaction> GetPlayerTransactions(int playerId)
+
+        public List<Transaction> GetPlayerTransactions(
+            int playerId)
         {
-            return _transactionRepository.GetPlayerTransactions(playerId);
+            return _transactionRepository
+                .GetPlayerTransactions(playerId);
         }
 
-        public void Add(Transaction transaction)
-        {
-            if (transaction.TotalPrice <= 0)
-                throw new ArgumentException("Total price is invalid.");
 
-            _transactionRepository.Add(transaction);
+  
+        /// ثبت تراکنش جدید.
+    
+        public int Add(Transaction transaction)
+        {
+            if (transaction == null)
+            {
+                throw new ArgumentNullException(
+                    nameof(transaction));
+            }
+
+            if (!transaction.PlayerID.HasValue)
+            {
+                throw new ArgumentException(
+                    "Player ID is required.");
+            }
+
+            if (!transaction.TotalPrice.HasValue ||
+                transaction.TotalPrice <= 0)
+            {
+                throw new ArgumentException(
+                    "Transaction amount must be greater than zero.");
+            }
+
+            return _transactionRepository.Add(
+                transaction);
         }
+
 
         public void Update(Transaction transaction)
         {
-            _transactionRepository.Update(transaction);
+            if (transaction == null)
+            {
+                throw new ArgumentNullException(
+                    nameof(transaction));
+            }
+
+            _transactionRepository.Update(
+                transaction);
         }
+
 
         public void Delete(int id)
         {

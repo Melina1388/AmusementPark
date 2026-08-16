@@ -1,0 +1,28 @@
+﻿@model AmusementPark.wb.ViewModels.SuccessPaymentViewModel
+<div class="pay-wrap">
+    <div class="pay-success">
+        <div class="check-circle">✔</div>
+        <h1>پرداخت با موفقیت انجام شد!</h1>
+        <p>بلیط‌هات آماده‌ست. لذت ببر 🎉</p>
+
+        <div class="tracking-row">
+            <div>
+                <span class="tracking-label">کد پیگیری سفارش</span>
+                <span class="tracking-code" id="trackingCodeText">@Model.TrackingCode</span>
+            </div>
+            <button type="button" class="copy-btn" id="copyTrackingBtn" aria-label="کپی کد پیگیری">
+                📋
+                <span class="copied-tooltip">کپی شد ✔</span>
+            </button>
+        </div>
+
+        <div class="receipt-ticket">
+            <div class="row"><span>شماره سفارش</span><b>#@Model.Id.ToString("D6")</b></div>
+            <div class="row"><span>دارنده‌ی کارت</span><b>@Model.CardHolderName</b></div>
+            <div class="row"><span>شماره کارت</span><b>@Model.MaskedCardNumber</b></div>
+            <div class="row"><span>مبلغ پرداخت‌شده</span><b>@Model.TotalAmount.ToString("N0") تومان</b></div>
+        </div>
+
+        <a asp-controller="Home" asp-action="Index" class="submit-btn" style="display:block; text-decoration:none;">بازگشت به صفحه اصلی</a>
+    </div>
+</div>

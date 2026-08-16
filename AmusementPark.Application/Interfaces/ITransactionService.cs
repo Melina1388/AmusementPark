@@ -1,18 +1,24 @@
 ﻿using AmusementPark.Domain.Entities;
 
-namespace AmusementPark.Application.Services;
-
-public interface ITransactionService
+namespace AmusementPark.Application.Interfaces
 {
-    List<Transaction> GetAll();
+  
+    /// سرویس مربوط به عملیات تراکنش‌های مالی.
+    /// این Interface در لایه Application قرار دارد
+    /// و هیچ وابستگی به Database یا MVC ندارد.
+   
+    public interface ITransactionService
+    {
+        List<Transaction> GetAll();
 
-    Transaction? GetById(int id);
+        Transaction? GetById(int id);
 
-    List<Transaction> GetPlayerTransactions(int playerId);
+        List<Transaction> GetPlayerTransactions(int playerId);
 
-    void Add(Transaction transaction);
+        int Add(Transaction transaction);
 
-    void Update(Transaction transaction);
+        void Update(Transaction transaction);
 
-    void Delete(int id);
+        void Delete(int id);
+    }
 }

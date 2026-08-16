@@ -16,9 +16,9 @@ namespace AmusementPark.Domain.Interfaces
 
             List<Transaction> GetPlayerTransactions(int playerId);
 
-            void Add(Transaction transaction);
+        int Add(Transaction transaction);
 
-            void Update(Transaction transaction);
+        void Update(Transaction transaction);
 
             void Delete(int id);
         }

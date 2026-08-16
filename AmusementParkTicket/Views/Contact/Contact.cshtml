@@ -1,0 +1,114 @@
+﻿<partial name="_Background" />
+
+<partial name="_Header" />
+
+
+
+<!-- ===== محتوای صفحه‌ی تماس با ما ===== -->
+<main class="contact-main">
+
+    <section class="contact-hero">
+        <div class="hero-badge">🎡 پشت صحنه‌ی شهربازی</div>
+        <h1>تماس با ما</h1>
+        <p>
+            ما فقط <strong>دو نفر</strong> پرانرژی‌ایم که این شهربازی رو با عشق ساختیم!
+            برای دیدن اطلاعاتمون، جعبه‌های شگفتی رو باز کن و بازی رو شروع کن 🎁
+        </p>
+    </section>
+
+    <section class="explore-progress" aria-live="polite">
+        <div class="progress-label">
+            <span>🧭 پیشرفت کاوش</span>
+            <span id="progressPercent">۰٪</span>
+        </div>
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-hint" id="progressHint">
+            روی جعبه‌ها بزن تا اطلاعات تیم رو ببینی!
+        </div>
+    </section>
+
+    <section class="team-grid">
+
+        <div class="mystery-card" data-card="1" tabindex="0" role="button" aria-label="باز کردن کارت عضو اول تیم">
+            <div class="mystery-inner">
+                <div class="mystery-face mystery-front">
+                    <span class="spark s1">✦</span>
+                    <span class="spark s2">✦</span>
+                    <span class="spark s3">✦</span>
+                    <div class="gift-icon">🎁</div>
+                    <p>برای باز شدن لمس کن</p>
+                </div>
+                <div class="mystery-face mystery-back">
+                    <div class="avatar">🧑‍💻</div>
+                    <h3>عضو اول تیم</h3>
+                    <span class="role-tag">هم‌بنیان‌گذار و توسعه‌دهنده</span>
+                    <p class="bio">عاشق چرخ‌وفلک، کد تمیز و یک فنجان قهوه‌ی داغ ☕</p>
+                    <div class="contact-links">
+                        <a href="melinaheidarian61.gmail.com">✉️ ایمیل</a>
+                        <a href="tel:09213655908">📱 تماس</a>
+                        <a href="Melin_88">💬 تلگرام</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mystery-card" data-card="2" tabindex="0" role="button" aria-label="باز کردن کارت عضو دوم تیم">
+            <div class="mystery-inner">
+                <div class="mystery-face mystery-front">
+                    <span class="spark s1">✦</span>
+                    <span class="spark s2">✦</span>
+                    <span class="spark s3">✦</span>
+                    <div class="gift-icon">🎁</div>
+                    <p>برای باز شدن لمس کن</p>
+                </div>
+                <div class="mystery-face mystery-back">
+                    <div class="avatar">👩‍💻</div>
+                    <h3>عضو دوم تیم</h3>
+                    <span class="role-tag">هم‌بنیان‌گذار و طراح تجربه‌ی کاربری</span>
+                    <p class="bio">دلبسته‌ی رنگ‌های شب‌تاب و ساخت لحظه‌های سرگرم‌کننده ✨</p>
+                    <div class="contact-links">
+                        <a href="sharifi1387haniye@gmail.com">✉️ ایمیل</a>
+                        <a href="tel:09944760768">📱 تماس</a>
+                        <a href="Haniye_sharifiii">💬 تلگرام</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="rating-section">
+        <h2>🎢 امتیازت رو ثبت کن!</h2>
+        <p>تجربه‌ت از این شهربازی چطور بود؟</p>
+
+        <div class="stars-input" id="starsInput" role="radiogroup" aria-label="امتیاز از ۵ ستاره">
+            <button type="button" class="star-btn" data-value="1" aria-label="۱ ستاره">★</button>
+            <button type="button" class="star-btn" data-value="2" aria-label="۲ ستاره">★</button>
+            <button type="button" class="star-btn" data-value="3" aria-label="۳ ستاره">★</button>
+            <button type="button" class="star-btn" data-value="4" aria-label="۴ ستاره">★</button>
+            <button type="button" class="star-btn" data-value="5" aria-label="۵ ستاره">★</button>
+        </div>
+
+        <button type="button" class="submit-btn rating-submit" id="submitRating">
+            ثبت امتیاز
+        </button>
+
+        <div class="rating-stats">
+            <span>⭐ ۴٫۹ از ۵</span>
+            <span>(۱٬۲۴۰ نظر)</span>
+        </div>
+
+        <div class="thank-you-toast" id="thankYouToast">
+            🎉 ممنون از نظرت! امتیازت با موفقیت ثبت شد.
+        </div>
+    </section>
+
+</main>
+
+<partial name="_Footer" />
+
+@section Scripts {
+    <script src="~/js/contact.js"></script>
+}
