@@ -1,0 +1,514 @@
+﻿.stars-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: radial-gradient(2px 2px at 10% 20%, #fff 0, transparent 60%), radial-gradient(2px 2px at 80% 10%, #fff 0, transparent 60%), radial-gradient(1.5px 1.5px at 40% 60%, #fff 0, transparent 60%), radial-gradient(2px 2px at 65% 80%, #fff 0, transparent 60%), radial-gradient(1.5px 1.5px at 90% 45%, #fff 0, transparent 60%);
+    opacity: .3;
+    animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+    from {
+        opacity: .18;
+    }
+
+    to {
+        opacity: .5;
+    }
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: .95;
+    }
+
+    100% {
+        transform: translateY(105vh) rotate(600deg);
+        opacity: 0;
+    }
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: linear-gradient(180deg, var(--surface) 0%, rgba(30,27,63,.96) 100%);
+    overflow: hidden;
+}
+
+    header::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        background-image: repeating-linear-gradient(90deg, var(--accent-gold) 0 10px, transparent 10px 22px);
+        animation: chase 1.1s linear infinite;
+    }
+
+@keyframes chase {
+    from {
+        background-position-x: 0;
+    }
+
+    to {
+        background-position-x: -22px;
+    }
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 900;
+    font-size: 1.3rem;
+}
+
+    .logo span.dot {
+        color: var(--accent-pink);
+    }
+
+    .logo .bulb {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--accent-gold);
+        box-shadow: 0 0 8px 2px rgba(255,201,77,.7);
+        animation: bulb 1.6s ease-in-out infinite;
+    }
+
+@keyframes bulb {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: .4;
+        transform: scale(.75);
+    }
+}
+
+@keyframes gradient-shift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes bob {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes wiggle {
+    0%, 100% {
+        transform: rotate(-4deg);
+    }
+
+    50% {
+        transform: rotate(4deg);
+    }
+}
+
+@keyframes sway-rope {
+    0%, 100% {
+        transform: rotate(-1.2deg);
+    }
+
+    50% {
+        transform: rotate(1.2deg);
+    }
+}
+
+.wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 28px 18px 70px;
+    position: relative;
+    z-index: 5;
+}
+
+h1.page-title {
+    font-size: 1.25rem;
+    font-weight: 900;
+    text-align: center;
+    margin: 0 0 10px;
+}
+
+p.page-sub {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: .85rem;
+    margin: 0 0 10px;
+}
+
+/* ===== صحنه‌ی بالون ===== */
+.balloon-scene {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 34px;
+}
+
+.balloon-illustration-wrap {
+    width: min(320px, 82vw);
+    animation: bob 4.5s ease-in-out infinite;
+    transform-origin: center top;
+    position: relative;
+    z-index: 6;
+}
+
+    .balloon-illustration-wrap svg {
+        width: 100%;
+        height: auto;
+        display: block;
+        overflow: visible;
+    }
+
+.balloon-group {
+    cursor: pointer;
+}
+
+    .balloon-group .balloon-unit {
+        transform-box: view-box;
+        animation: sway-rope 3.4s ease-in-out infinite;
+    }
+
+    .balloon-group:nth-of-type(2) .balloon-unit {
+        animation-delay: .3s;
+    }
+
+    .balloon-group:nth-of-type(3) .balloon-unit {
+        animation-delay: .6s;
+    }
+
+    .balloon-group:nth-of-type(4) .balloon-unit {
+        animation-delay: .9s;
+    }
+
+    .balloon-group:nth-of-type(5) .balloon-unit {
+        animation-delay: .15s;
+    }
+
+.balloon-body {
+    transition: transform .15s ease;
+    transform-origin: center;
+    transform-box: fill-box;
+}
+
+.balloon-group:hover .balloon-body {
+    transform: scale(1.06);
+}
+
+.balloon-main {
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+.balloon-group.popped .balloon-main {
+    animation: balloon-pop .35s ease forwards;
+}
+
+.balloon-group.popped .rope {
+    animation: none;
+    opacity: 0;
+    transition: opacity .3s ease .1s;
+}
+
+@keyframes balloon-pop {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    40% {
+        transform: scale(1.25);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.2);
+        opacity: 0;
+    }
+}
+
+.shard {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+.balloon-group.popped .shard {
+    animation: shard-fly .5s ease-out forwards;
+}
+@keyframes shard-fly {
+    0% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(38px) scale(.3);
+    }
+}
+
+.gondola {
+    transform-box: fill-box;
+    transition: transform 1.3s cubic-bezier(.55,.06,.68,.19);
+}
+
+    .gondola.falling {
+        transform: translateY(650px) rotate(6deg);
+    }
+
+.character {
+    cursor: pointer;
+}
+
+    .character .char-body {
+        transition: transform .2s ease;
+        transform-box: fill-box;
+        transform-origin: 50% 100%;
+    }
+
+    .character:hover .char-body, .character.active .char-body {
+        transform: scale(1.045) translateY(-2px);
+    }
+
+/* ===== کارت اطلاعات هر نفر ===== */
+.people-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.person-card {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px;
+    padding: 14px 16px;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height .35s ease, opacity .3s ease, padding .35s ease;
+}
+
+    .person-card.show {
+        max-height: 220px;
+        opacity: 1;
+        padding: 14px 16px;
+    }
+
+    .person-card h3 {
+        margin: 0 0 8px;
+        font-size: .95rem;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .person-card .info-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: .78rem;
+        color: var(--text-muted);
+        padding: 3px 0;
+    }
+
+        .person-card .info-row b {
+            color: var(--text);
+            direction: ltr;
+        }
+
+    .person-card.card-sara h3 {
+        color: var(--accent-teal);
+    }
+
+    .person-card.card-negar h3 {
+        color: var(--accent-pink);
+    }
+
+@media (min-width:760px) {
+    .balloon-scene {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+    }
+
+    .balloon-illustration-wrap {
+        width: 340px;
+        order: 2;
+    }
+
+    .people-cards {
+        width: 220px;
+    }
+
+        .people-cards.left {
+            order: 1;
+        }
+
+        .people-cards.right {
+            order: 3;
+        }
+
+    .person-card {
+        max-height: 0;
+    }
+
+        .person-card.show {
+            max-height: 260px;
+        }
+}
+
+/* ===== بازی بله/خیر ===== */
+.feedback-card {
+    background: var(--surface);
+    border: 1px dashed rgba(255,201,77,.35);
+    border-radius: 22px;
+    padding: 34px 20px;
+    text-align: center;
+    position: relative;
+    overflow: visible;
+    margin-top: 10px;
+}
+
+    .feedback-card h2 {
+        font-size: 1.05rem;
+        font-weight: 900;
+        margin: 0 0 22px;
+    }
+
+.feedback-choices {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    position: relative;
+    min-height: 54px;
+}
+
+.yes-btn {
+    border: none;
+    border-radius: 14px;
+    padding: 13px 30px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: .92rem;
+    color: #1a1030;
+    background: linear-gradient(90deg, var(--accent-gold), var(--accent-teal));
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(0,217,192,.28);
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+    .yes-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(0,217,192,.38);
+    }
+
+.no-btn {
+    position: fixed;
+    z-index: 9999;
+    border: none;
+    border-radius: 14px;
+    padding: 13px 30px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: .92rem;
+    color: var(--text);
+    background: var(--surface-2);
+    cursor: pointer;
+    opacity: 1;
+    visibility: visible;
+    transition: top .22s cubic-bezier(.34,1.56,.64,1), left .22s cubic-bezier(.34,1.56,.64,1), transform .18s ease;
+}
+
+    .no-btn::before {
+        content: "";
+        position: absolute;
+        inset: -12px;
+    }
+
+    .no-btn.fleeing {
+        animation: shake-away .22s ease;
+    }
+
+@keyframes shake-away {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    50% {
+        transform: scale(.9) rotate(-8deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+.feedback-thanks {
+    margin-top: 18px;
+    font-size: .88rem;
+    color: var(--accent-teal);
+    font-weight: 700;
+    min-height: 1.4em;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity .3s ease, transform .3s ease;
+}
+
+    .feedback-thanks.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+@media (min-width:640px) {
+    header {
+        padding: 16px 32px;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width:1024px) {
+    header {
+        padding: 20px 48px;
+    }
+
+    .logo {
+        font-size: 1.7rem;
+    }
+
+    .wrap {
+        padding-top: 36px;
+        max-width: 900px;
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+}

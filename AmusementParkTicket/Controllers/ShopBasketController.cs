@@ -3,6 +3,7 @@ using AmusementPark.Application.Interfaces;
 using AmusementPark.Domain.Entities;
 using Application.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AmusementPark.wb.Controllers
 {
@@ -16,20 +17,25 @@ namespace AmusementPark.wb.Controllers
 
         private readonly IGameService
             _gameService;
-
+        private readonly IShopBasketPersistenceService
+    _shopBasketPersistenceService;
 
         public ShopBasketController(
-     IShopBasketService shopBasketService,
-     IGameService gameService)
+    IShopBasketService shopBasketService,
+    IGameService gameService,
+    IShopBasketPersistenceService shopBasketPersistenceService)
         {
             _shopBasketService =
                 shopBasketService;
 
             _gameService =
                 gameService;
+            _shopBasketPersistenceService =
+    shopBasketPersistenceService;
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult SelectTicket(
      [FromBody] SelectTicketRequestDto request)
         {
@@ -143,7 +149,80 @@ namespace AmusementPark.wb.Controllers
                 quantity = quantity
             });
         }
+        // ============================================
+        // شروع فرآیند پرداخت
+        // ============================================
+        
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Checkout()
+        {
+            List<ShopBasketItemDto> basket =
+                _shopBasketService.GetBasket();
+
+            // اگر سبد خالی است، امکان پرداخت وجود ندارد.
+            if (basket.Count == 0)
+            {
+                return RedirectToAction(
+                    nameof(ShopBasket));
+            }
+
+            // ============================================
+            // بررسی Login
+            // ============================================
+
+            if (User.Identity?.IsAuthenticated != true)
+            {
+                ViewBag.ShowLoginMessage = true;
+
+                return View(
+                    nameof(ShopBasket),
+                    basket);
+            }
+
+            // ============================================
+            // دریافت PlayerID از Claim
+            // ============================================
+
+            string? playerIdClaim =
+                User.FindFirstValue(
+                    ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(
+                    playerIdClaim,
+                    out int playerId) ||
+                playerId <= 0)
+            {
+                ViewBag.ShowLoginMessage = true;
+
+                return View(
+                    nameof(ShopBasket),
+                    basket);
+            }
+
+            try
+            {
+                // ثبت سبد فعلی کاربر در Database
+                _shopBasketPersistenceService
+                    .SaveBasket(
+                        playerId,
+                        basket);
+
+                // بعد از ثبت موفق، رفتن به صفحه پرداخت
+                return RedirectToAction(
+                    "Payment",
+                    "Payment");
+            }
+            catch (InvalidOperationException ex)
+            {
+                TempData["ShopBasketError"] =
+                    ex.Message;
+
+                return RedirectToAction(
+                    nameof(ShopBasket));
+            }
+        }
         // ============================================
         // نمایش سبد خرید
         // ============================================

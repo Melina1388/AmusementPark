@@ -204,7 +204,7 @@ namespace AmusementPark.Application.Services
 
 
             return basket.Sum(
-                x => x.TotalPrice);
+                x => x.TotalGamePrice);
         }
 
 

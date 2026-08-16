@@ -8,8 +8,8 @@
 
     <title>@ViewData["Title"] </title>
 
-    <link rel="stylesheet" href="~/css/site.css" />
-
+<link rel="stylesheet" href="~/css/site.css" />
+@await RenderSectionAsync("Styles", required: false)
 </head>
 
 <body>

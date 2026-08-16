@@ -328,15 +328,7 @@ namespace AmusementPark.Controllers
 
             var principal = new ClaimsPrincipal(identity);
 
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                principal,
-                new AuthenticationProperties
-                {
-                    IsPersistent = true,
-                    AllowRefresh = true,
-                    ExpiresUtc = DateTimeOffset.UtcNow.AddYears(10)
-                });
+            
 
             // =================================================
             // Cookie دائمی

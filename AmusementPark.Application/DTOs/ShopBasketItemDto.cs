@@ -19,7 +19,7 @@
  
         /// قیمت کل این آیتم.
    
-        public decimal TotalPrice =>
+        public decimal TotalGamePrice =>
             GamePrice * Quantity;
     }
 }

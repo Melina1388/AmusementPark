@@ -36,7 +36,13 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<
     IShopBasketStore,
     SessionShopBasketStore>();
+builder.Services.AddScoped<
+    IShopBasketPersistenceService,
+    ShopBasketPersistenceService>();
 
+builder.Services.AddScoped<
+    IShopBasketRepository,
+    ShopBasketRepository>();
 // =====================================================
 // Authentication
 // =====================================================

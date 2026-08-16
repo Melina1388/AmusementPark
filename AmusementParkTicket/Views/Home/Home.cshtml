@@ -1,5 +1,14 @@
 ﻿@model AmusementPark.Web.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "خانه";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/Home.css" />
+}
 
+@section Scripts {
+    <script src="~/js/Home.js"></script>
+}
 <partial name="_Background" />
 
 <partial name="_Header" />
@@ -188,7 +197,7 @@
                                         aria-expanded="false"
                                         data-game-id="@game.GameID">
 
-                                    🎟️ انتخاب بلیت
+                                    🎟️ انتخاب بلیط
 
                                 </button>
 

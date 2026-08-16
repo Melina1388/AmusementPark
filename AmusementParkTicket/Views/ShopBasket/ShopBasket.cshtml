@@ -1,4 +1,14 @@
 ﻿@model List<AmusementPark.Application.DTOs.ShopBasketItemDto>
+@{
+    ViewData["Title"] = "سبد خرید";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/ShopBasket.css" />
+}
+
+@section Scripts {
+    <script src="~/js/ShopBasket.js"></script>
+}
 
 <partial name="_Background" />
 
@@ -7,7 +17,6 @@
 
 <div class="cart-wrap" id="cartWrap">
 
-    <h1 class="page-title">🛒 سبد خرید</h1>
 
     @if (Model == null || !Model.Any())
     {
@@ -98,7 +107,7 @@
 
                         <div class="line-total">
 
-                            @item.TotalPrice.ToString("N0")
+                            @item.TotalGamePrice.ToString("N0")
 
                             تومان
 
@@ -135,7 +144,7 @@
 @if (Model != null && Model.Any())
 {
     decimal total =
-        Model.Sum(x => x.TotalPrice);
+        Model.Sum(x => x.TotalGamePrice);
 
 
     <div class="cart-total-bar">
@@ -157,13 +166,93 @@
         </div>
 
 
-        <a asp-controller="Payment"
-           asp-action="Payment"
-           class="checkout-btn">
+       <form asp-controller="ShopBasket"
+      asp-action="Checkout"
+      method="post"
+      style="margin:0;">
 
-            پرداخت
+    @Html.AntiForgeryToken()
 
-        </a>
+    <button type="submit"
+            class="checkout-btn">
+
+        پرداخت
+
+    </button>
+
+</form>
 
     </div>
 }
+
+@if (ViewBag.ShowLoginMessage == true)
+{
+    <div id="login-required-modal"
+         class="ticket-message-overlay">
+
+        <div class="ticket-message-box">
+
+            <button type="button"
+                    id="close-login-required-message"
+                    class="ticket-message-close"
+                    aria-label="بستن">
+
+                ×
+
+            </button>
+
+
+            <div class="ticket-message-icon">
+
+                🔐
+
+            </div>
+
+
+            <h3>
+                ورود به سایت
+            </h3>
+
+
+            <p>
+                برای خرید بلیت ابتدا باید وارد سایت شوید.
+            </p>
+
+
+            <a asp-controller="Login"
+               asp-action="Login"
+               class="ticket-message-cart-link">
+
+                ورود به سایت
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        document
+            .getElementById(
+                "close-login-required-message"
+            )
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    document
+                        .getElementById(
+                            "login-required-modal"
+                        )
+                        ?.classList.add(
+                            "hidden"
+                        );
+
+                }
+            );
+
+    </script>
+}
+

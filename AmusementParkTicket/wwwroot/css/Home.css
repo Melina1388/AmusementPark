@@ -1,0 +1,426 @@
+﻿
+/* ===== جستجو ===== */
+.search-wrap {
+    padding: 12px 20px 6px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px;
+    padding: 10px 14px;
+    transition: box-shadow .25s ease, border-color .25s ease;
+}
+
+    .search-box:focus-within {
+        border-color: rgba(255,201,77,.5);
+        box-shadow: 0 0 0 4px rgba(255,201,77,.15);
+    }
+
+    .search-box input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: var(--text);
+        font-family: inherit;
+        font-size: .95rem;
+    }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
+.search-suggestions {
+    position: relative;
+    z-index: 20;
+    display: none;
+    margin-top: 6px;
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 14px 35px rgba(0,0,0,.35);
+}
+
+    .search-suggestions.show {
+        display: block;
+    }
+
+.search-suggestion-item {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    padding: 11px 14px;
+    text-align: right;
+    font-family: inherit;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+    transition: background .2s ease;
+}
+
+    .search-suggestion-item:last-child {
+        border-bottom: none;
+    }
+
+    .search-suggestion-item:hover {
+        background: var(--surface-2);
+    }
+
+.search-suggestion-name {
+    display: block;
+    font-size: .88rem;
+    font-weight: 700;
+}
+
+.search-suggestion-amusement {
+    display: block;
+    margin-top: 3px;
+    color: var(--text-muted);
+    font-size: .72rem;
+}
+
+.search-empty {
+    min-height: 45vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.search-empty-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+}
+
+.search-empty h2 {
+    margin: 0 0 8px;
+    font-size: 1.25rem;
+    font-weight: 900;
+}
+
+.search-empty p {
+    margin: 0 0 20px;
+    color: var(--text-muted);
+    font-size: .85rem;
+}
+
+    .search-empty p strong {
+        color: var(--accent-gold);
+    }
+
+.search-empty-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border-radius: 12px;
+    background: var(--surface-2);
+    color: var(--text);
+    text-decoration: none;
+    font-size: .82rem;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,.08);
+    transition: transform .2s ease, background .2s ease;
+}
+
+    .search-empty-button:hover {
+        background: var(--accent-purple);
+        transform: translateY(-2px);
+    }
+/* ===== بخش شهربازی‌ها ===== */
+.park-section {
+    padding: 22px 20px 6px;
+    opacity: 1;
+    transform: translateY(0);
+    width: 100%;
+    overflow: visible;
+}
+
+    .park-section.revealed {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+.park-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+    .park-title-row h2 {
+        font-size: 1.15rem;
+        font-weight: 900;
+        margin: 0;
+    }
+
+    .park-title-row .city {
+        color: var(--text-muted);
+        font-size: .8rem;
+        font-weight: 500;
+    }
+
+    .park-title-row .emoji-spin {
+        display: inline-block;
+        animation: wiggle 2.4s ease-in-out infinite;
+    }
+
+@keyframes wiggle {
+    0%,100% {
+        transform: rotate(-8deg);
+    }
+
+    50% {
+        transform: rotate(8deg);
+    }
+}
+
+.ride-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 14px;
+    scrollbar-width: thin;
+    scrollbar-color: #171f4d #0d1230;
+    scroll-behavior: smooth;
+}
+
+    .ride-row::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .ride-row::-webkit-scrollbar-track {
+        background: #0d1230;
+        border-radius: 10px;
+    }
+
+    .ride-row::-webkit-scrollbar-thumb {
+        background: #171f4d;
+        border-radius: 10px;
+        border: 1px solid rgba(255,255,255,.08);
+    }
+
+        .ride-row::-webkit-scrollbar-thumb:hover {
+            background: #222d68;
+        }
+
+.ride-card {
+    position: relative;
+    flex: 0 0 220px;
+    width: 220px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.06);
+    opacity: 0;
+    transform: translateY(18px) scale(.96);
+    margin-top: 11px;
+}
+
+.park-section.revealed .ride-card {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.ride-row .ride-card:nth-child(1) {
+    transition-delay: .05s;
+}
+
+.ride-row .ride-card:nth-child(2) {
+    transition-delay: .12s;
+}
+
+.ride-row .ride-card:nth-child(3) {
+    transition-delay: .19s;
+}
+
+.ride-row .ride-card:nth-child(4) {
+    transition-delay: .26s;
+}
+
+.ride-row .ride-card:nth-child(5) {
+    transition-delay: .33s;
+}
+
+.ride-card:hover {
+    transform: translateY(0) scale(1) !important;
+    box-shadow: 0 12px 28px rgba(255, 61, 127, .28);
+}
+
+.ride-card .thumb {
+    height: 100px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--accent-pink), var(--accent-teal));
+    background-size: 220% 220%;
+    animation: gradient-shift 6s ease infinite;
+}
+
+@keyframes gradient-shift {
+    0%,100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.ride-card .thumb::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,.35) 50%, transparent 60%);
+    background-size: 250% 250%;
+    animation: shine 3.4s ease-in-out infinite;
+}
+
+.thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@keyframes shine {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -60% 0;
+    }
+}
+
+.ride-card .notches {
+    position: relative;
+    height: 0;
+}
+
+    .ride-card .notches::before, .ride-card .notches::after {
+        content: "";
+        position: absolute;
+        top: -8px;
+        width: 16px;
+        height: 16px;
+        background: var(--bg);
+        border-radius: 50%;
+    }
+
+    .ride-card .notches::before {
+        right: -8px;
+    }
+
+    .ride-card .notches::after {
+        left: -8px;
+    }
+
+.ride-card .stub-divider {
+    border-top: 2px dashed rgba(255,255,255,.15);
+    margin: 0 12px;
+}
+
+.ride-card .info {
+    padding: 10px 12px 12px;
+}
+
+    .ride-card .info .name {
+        font-size: .88rem;
+        font-weight: 700;
+        margin: 0 0 4px;
+    }
+
+    .ride-card .info .price {
+        font-size: .78rem;
+        color: var(--accent-gold);
+        font-weight: 700;
+    }
+
+    /*******msg******/
+
+.hidden {
+    display: none;
+}
+
+.ticket-success-message {
+    padding: 12px;
+    margin-bottom: 20px;
+}
+
+.ticket-message-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 9999;
+}
+
+    .ticket-message-overlay.hidden {
+        display: none;
+    }
+
+.ticket-message-box {
+    position: relative;
+    width: 90%;
+    max-width: 420px;
+    padding: 30px;
+    text-align: center;
+    background: linear-gradient(180deg, var(--surface) 0%, rgba(30,27,63,.96) 100%);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+.ticket-message-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+    color: white;
+}
+
+.ticket-message-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    font-size: 30px;
+    background: aquamarine;
+    color: green;
+}
+
+.ticket-message-box h3 {
+    margin-bottom: 10px;
+}
+
+.ticket-message-box p {
+    margin-bottom: 20px;
+}
+
+.ticket-message-cart-link {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: lightblue;
+}

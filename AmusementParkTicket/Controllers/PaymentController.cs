@@ -2,6 +2,7 @@
 using AmusementPark.Application.Interfaces;
 using AmusementPark.wb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AmusementPark.wb.Controllers
 {
@@ -19,16 +20,21 @@ namespace AmusementPark.wb.Controllers
         private readonly IPaymentService
             _paymentService;
 
+        private readonly IShopBasketPersistenceService
+    _shopBasketPersistenceService;
 
         public PaymentController(
             IShopBasketService shopBasketService,
-            IPaymentService paymentService)
+            IPaymentService paymentService,
+            IShopBasketPersistenceService shopBasketPersistenceService)
         {
             _shopBasketService =
                 shopBasketService;
 
             _paymentService =
                 paymentService;
+            _shopBasketPersistenceService =
+    shopBasketPersistenceService;
         }
 
 
@@ -81,23 +87,23 @@ namespace AmusementPark.wb.Controllers
             }
 
 
-            // PlayerId در LoginController پروژه شما
-            // با همین کلید داخل Session ذخیره می‌شود.
+            // PlayerID از Claim احراز هویت خوانده می‌شود.
+            // این مقدار از Cookie معتبر Login می‌آید
+            // و از Client دریافت نمی‌شود.
 
             string? playerIdValue =
-                HttpContext.Session.GetString(
-                    "PlayerId");
-
+                User.FindFirstValue(
+                    ClaimTypes.NameIdentifier);
 
             if (!int.TryParse(
                     playerIdValue,
-                    out int playerId))
+                    out int playerId) ||
+                playerId <= 0)
             {
                 return RedirectToAction(
                     "Login",
                     "Login");
             }
-
 
             try
             {
@@ -126,11 +132,14 @@ namespace AmusementPark.wb.Controllers
                         request);
 
 
-                // پرداخت موفق بوده،
-                // بنابراین سبد خرید خالی می‌شود.
+                // پرداخت موفق بوده است.
+                // بنابراین هم سبد Session و هم نسخه ثبت‌شده
+                // در جدول ShopBasket باید پاک شوند.
+
+                _shopBasketPersistenceService
+                    .ClearBasket(playerId);
 
                 _shopBasketService.Clear();
-
 
                 SuccessPaymentViewModel successModel =
                     new SuccessPaymentViewModel

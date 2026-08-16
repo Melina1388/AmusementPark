@@ -15,7 +15,6 @@ public class HomeController : Controller
         _apiService = apiService;
         _shopBasketService = shopBasketService;
     }
-
     [HttpGet]
     public async Task<IActionResult> Home(string? search)
     {
@@ -23,20 +22,17 @@ public class HomeController : Controller
 
         try
         {
-            // -----------------------------------------
+            // ============================================
             // دریافت بازی‌ها
-            // -----------------------------------------
-            
+            // ============================================
+
             if (string.IsNullOrWhiteSpace(search))
             {
-                games =
-                    await _apiService.GetGamesAsync();
+                games = await _apiService.GetGamesAsync();
             }
             else
             {
-                games =
-                    await _apiService.SearchGamesAsync(
-                        search);
+                games = await _apiService.SearchGamesAsync(search);
             }
         }
         catch (Exception ex)
@@ -47,44 +43,55 @@ public class HomeController : Controller
 
             throw;
         }
-        // -----------------------------------------
-        // دریافت تعداد بلیت‌های موجود در سبد خرید
-        // -----------------------------------------
 
-        var basket =
-            _shopBasketService.GetBasket();
+        // ============================================
+        // دریافت سبد خرید فعلی
+        // ============================================
 
-        var basketQuantities =
-            basket.ToDictionary(
-                x => x.GameID,
-                x => x.Quantity);
+        var basket = _shopBasketService.GetBasket();
 
-        // -----------------------------------------
-        // گروه‌بندی بازی‌ها بر اساس شهربازی
-        // -----------------------------------------
+        // GameID -> Quantity
+        var basketQuantities = basket
+            .GroupBy(x => x.GameID)
+            .ToDictionary(
+                x => x.Key,
+                x => x.Last().Quantity
+            );
+
+        // ============================================
+        // ساخت ViewModel
+        // ============================================
 
         var model = new HomeViewModel
         {
             Games = games,
 
+            // این خط خیلی مهم است
+            BasketQuantities = basketQuantities,
+
             Amusements = games
                 .Where(g =>
-                    !string.IsNullOrWhiteSpace(
-                        g.AmusementName))
+                    !string.IsNullOrWhiteSpace(g.AmusementName))
                 .GroupBy(g =>
                     g.AmusementName!.Trim())
                 .Select(g =>
                     new AmusementGroupViewModel
                     {
                         AmusementName = g.Key,
-
                         Games = g.ToList()
                     })
                 .ToList()
         };
 
-        Console.WriteLine($"Games Count: {games.Count}");
-        Console.WriteLine($"Amusements Count: {model.Amusements.Count}");
+        Console.WriteLine(
+            $"Games Count: {games.Count}");
+
+        Console.WriteLine(
+            $"Amusements Count: {model.Amusements.Count}");
+
+        Console.WriteLine(
+            $"Basket Items Count: {basket.Count}");
+
         return View(model);
     }
     [HttpGet]
