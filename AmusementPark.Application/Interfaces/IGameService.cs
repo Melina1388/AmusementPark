@@ -1,10 +1,13 @@
-﻿ 
-using AmusementPark.Domain.Entities;
+﻿using AmusementPark.Domain.Entities;
 
 namespace AmusementPark.Application.Interfaces
 {
     public interface IGameService
     {
+        // ==============================
+        // Games
+        // ==============================
+
         List<Game> GetAll();
 
         Game? GetById(int id);
@@ -16,5 +19,21 @@ namespace AmusementPark.Application.Interfaces
         void Update(Game game);
 
         void Delete(int id);
+
+
+        // ==============================
+        // Amusement Parks
+        // ==============================
+
+        List<string> GetAmusementParks();
+
+        void AddAmusementPark(string amusementName);
+
+        void RenameAmusementPark(
+            string oldName,
+            string newName);
+
+        void DeleteAmusementPark(
+            string amusementName);
     }
 }

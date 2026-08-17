@@ -22,9 +22,25 @@ builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        "AllowWebsite",
+        policy =>
+        {
+            policy
+                .WithOrigins(
+                    "https://localhost:7109"
+                   
+                )
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 
 var app = builder.Build();
-
+app.UseCors("AllowWebsite");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
