@@ -1,6 +1,7 @@
 ﻿/*-------------payment--------------*/
 .pay-wrap {
-    max-width: 400px;
+    width: 100%;
+    max-width: 600px;
     margin: 0 auto;
     padding: 28px 16px 60px;
     position: relative;
@@ -376,7 +377,6 @@ h1.page-title {
 html {
     font-size: clamp(15px, 0.95vw + 12px, 19px);
 }
-
 @media (min-width:640px) {
     header {
         padding: 16px 32px;
@@ -387,7 +387,7 @@ html {
     }
 
     .pay-wrap {
-        max-width: 440px;
+        max-width: 520px;
     }
 }
 
@@ -401,10 +401,9 @@ html {
     }
 
     .pay-wrap {
-        max-width: 460px;
+        max-width: 560px;
         padding-top: 36px;
     }
-
     .page-title {
         font-size: 1.4rem;
     }
@@ -418,9 +417,8 @@ html {
         padding: 15px 18px;
     }
 }
-
 @media (min-width:1440px) {
     .pay-wrap {
-        max-width: 480px;
+        max-width: 600px;
     }
 }

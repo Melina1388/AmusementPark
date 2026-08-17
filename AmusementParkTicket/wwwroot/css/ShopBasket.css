@@ -1,7 +1,7 @@
 ﻿/*---------basket-----------*/
-
 .cart-wrap {
-    max-width: 600px;
+    width: 100%;
+    max-width: 900px;
     margin: 0 auto;
     padding: 20px 16px 150px;
     position: relative;
@@ -45,7 +45,7 @@ h1.page-title {
     margin-bottom: 10px;
     position: relative;
     overflow: hidden;
-    transition: transform .25s ease, opacity .25s ease, box-shadow .2s ease;
+    transition: transform .25s ease, opacity .0s ease, box-shadow .2s ease;
 }
 
     .cart-row::before {
@@ -293,7 +293,7 @@ html {
     }
 
     .cart-wrap {
-        max-width: 780px;
+        max-width: 900px;
         padding-top: 32px;
     }
 
