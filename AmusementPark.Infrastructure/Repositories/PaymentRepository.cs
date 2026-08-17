@@ -15,7 +15,7 @@ public class PaymentRepository : ITransactionRepository
 
         connection.Open();
 
-        string query = "SELECT * FROM Transaction";
+        string query = "SELECT * FROM [Transaction]";
 
         using OleDbCommand command = new(query, connection);
 
@@ -42,7 +42,7 @@ public class PaymentRepository : ITransactionRepository
 
         connection.Open();
 
-        string query = "SELECT * FROM Transaction WHERE TransactionID=?";
+        string query = "SELECT * FROM [Transaction] WHERE TransactionID=?";
 
         using OleDbCommand command = new(query, connection);
 
@@ -73,7 +73,7 @@ public class PaymentRepository : ITransactionRepository
 
         connection.Open();
 
-        string query = "SELECT * FROM Transaction WHERE PlayerID=?";
+        string query = "SELECT * FROM [Transaction] WHERE PlayerID=?";
 
         using OleDbCommand command = new(query, connection);
 
@@ -164,7 +164,7 @@ public class PaymentRepository : ITransactionRepository
         connection.Open();
 
         string query =
-            @"UPDATE Transaction
+            @"UPDATE [Transaction]
               SET PlayerID=?,
                   CardNum=?,
                   TotalPrice=?,
@@ -188,7 +188,7 @@ public class PaymentRepository : ITransactionRepository
 
         connection.Open();
 
-        string query = "DELETE FROM Transaction WHERE TransactionID=?";
+        string query = "DELETE FROM [Transaction] WHERE TransactionID=?";
 
         using OleDbCommand command = new(query, connection);
 

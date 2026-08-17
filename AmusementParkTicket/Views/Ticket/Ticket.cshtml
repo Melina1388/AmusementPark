@@ -1,14 +1,32 @@
-﻿@{
+﻿@model List<AmusementPark.wb.ViewModels.TicketViewModel>
+@using System.Text.Json
+
+@{
     ViewData["Title"] = "وضعیت بلیط";
+
+    var jsonOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
 }
+
 @section Styles {
     <link rel="stylesheet" href="~/css/Ticket.css" />
 }
 
 @section Scripts {
+
+    <script>
+        window.tickets = @Html.Raw(
+        JsonSerializer.Serialize(
+        Model,
+        jsonOptions
+        )
+    );
+    </script>
+
     <script src="~/js/Ticket.js"></script>
 }
-
 <partial name="_Header" />
 
 <div class="wrap">

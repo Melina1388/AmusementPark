@@ -10,7 +10,7 @@ namespace AmusementPark.Domain.Entities
         public decimal? TotalPrice { get; set; }
         public string? TrackingNum { get; set; }
 
-        public int? ShopBasketID { get; set; }
+      
 
     }
 }

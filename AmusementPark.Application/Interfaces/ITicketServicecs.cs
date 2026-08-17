@@ -1,6 +1,6 @@
 ﻿using AmusementPark.Domain.Entities;
 
-namespace AmusementPark.Application.Services;
+namespace AmusementPark.Application.Interfaces;
 
 public interface ITicketService
 {
@@ -9,6 +9,8 @@ public interface ITicketService
     Ticket? GetById(int id);
 
     List<Ticket> GetUnusedTickets();
+
+    List<Ticket> GetPlayerTickets(int playerId);
 
     void Add(Ticket ticket);
 

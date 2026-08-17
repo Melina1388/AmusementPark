@@ -1,23 +1,20 @@
-﻿
-using AmusementPark.Domain.Entities;
+﻿using AmusementPark.Domain.Entities;
 
-namespace AmusementPark.Domain.Interfaces
+namespace AmusementPark.Domain.Interfaces;
+
+public interface ITicketRepository
 {
-  
-        public interface ITicketRepository
-        {
-            List<Ticket> GetAll();
+    List<Ticket> GetAll();
 
-            Ticket? GetById(int id);
+    Ticket? GetById(int id);
 
-            List<Ticket> GetUnusedTickets();
+    List<Ticket> GetUnusedTickets();
 
-            void Add(Ticket ticket);
+    List<Ticket> GetPlayerTickets(int playerId);
 
-            void Update(Ticket ticket);
+    void Add(Ticket ticket);
 
-            void Delete(int id);
+    void Update(Ticket ticket);
 
-        }
-    
+    void Delete(int id);
 }

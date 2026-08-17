@@ -23,19 +23,24 @@ namespace AmusementPark.Application.Services
 
         private readonly ITransactionService
             _transactionService;
+        private readonly ITicketService
+    _ticketService;
 
 
         public PaymentService(
-            IShopBasketService shopBasketService,
-            ITransactionService transactionService)
+      IShopBasketService shopBasketService,
+      ITransactionService transactionService,
+      ITicketService ticketService)
         {
             _shopBasketService =
                 shopBasketService;
 
             _transactionService =
                 transactionService;
-        }
 
+            _ticketService =
+                ticketService;
+        }
 
         public PaymentResultDto ProcessPayment(
             PaymentRequestDto request)
@@ -88,7 +93,28 @@ namespace AmusementPark.Application.Services
                 _transactionService.Add(
                     transaction);
 
+            List<ShopBasketItemDto> basketItems =
+    _shopBasketService.GetBasket();
 
+            foreach (ShopBasketItemDto item in basketItems)
+            {
+                for (int i = 0; i < item.Quantity; i++)
+                {
+                    Ticket ticket = new Ticket
+                    {
+                        PlayerID = request.PlayerId,
+
+                        GameID = item.GameID,
+
+                        TransactionID = transactionId,
+
+                        IsUsed = "Unused"
+                    };
+
+                    _ticketService.Add(ticket);
+                }
+            }
+            _shopBasketService.Clear();
             return new PaymentResultDto
             {
                 TransactionId =

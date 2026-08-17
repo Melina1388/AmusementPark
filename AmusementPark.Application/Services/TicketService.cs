@@ -27,7 +27,10 @@ namespace AmusementPark.Application.Services
         {
             return _ticketRepository.GetUnusedTickets();
         }
-
+        public List<Ticket> GetPlayerTickets(int playerId)
+        {
+            return _ticketRepository.GetPlayerTickets(playerId);
+        }
         public void Add(Ticket ticket)
         {
             _ticketRepository.Add(ticket);
