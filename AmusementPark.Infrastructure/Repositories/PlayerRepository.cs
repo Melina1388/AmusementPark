@@ -47,7 +47,7 @@ namespace AmusementPark.Infrastructure.Repositories
             connection.Open();
 
             const string query =
-                "SELECT PlayerID, PlayerName, PlayerMobile " +
+                "SELECT PlayerID, PlayerName, PlayerMobile ,IsAdmin " +
                 "FROM Player WHERE PlayerID=?";
 
             using OleDbCommand command =
@@ -76,7 +76,7 @@ namespace AmusementPark.Infrastructure.Repositories
             connection.Open();
 
             const string query =
-                "SELECT PlayerID, PlayerName, PlayerMobile " +
+                "SELECT PlayerID, PlayerName, PlayerMobile, IsAdmin " +
                 "FROM Player WHERE PlayerMobile=?";
 
             using OleDbCommand command =
@@ -108,7 +108,7 @@ namespace AmusementPark.Infrastructure.Repositories
             connection.Open();
 
             const string query =
-                "SELECT PlayerID, PlayerName, PlayerMobile " +
+                "SELECT PlayerID, PlayerName, PlayerMobile, IsAdmin " +
                 "FROM Player WHERE PlayerName=?";
 
             using OleDbCommand command =
@@ -144,7 +144,7 @@ namespace AmusementPark.Infrastructure.Repositories
             connection.Open();
 
             const string query =
-                "SELECT PlayerID, PlayerName, PlayerMobile " +
+                "SELECT PlayerID, PlayerName, PlayerMobile, IsAdmin " +
                 "FROM Player " +
                 "WHERE PlayerName=? AND PlayerMobile=?";
 
@@ -190,8 +190,8 @@ namespace AmusementPark.Infrastructure.Repositories
 
             const string query =
                 "INSERT INTO Player " +
-                "(PlayerName, PlayerMobile) " +
-                "VALUES (?, ?)";
+                "(PlayerName, PlayerMobile, IsAdmin) " +
+                "VALUES (?, ?, ?)";
 
             using OleDbCommand command =
                 new(query, connection);
@@ -203,6 +203,10 @@ namespace AmusementPark.Infrastructure.Repositories
             command.Parameters.AddWithValue(
                 "@PlayerMobile",
                 player.PlayerMobile);
+
+            command.Parameters.AddWithValue(
+                "@IsAdmin",
+                false);
 
             command.ExecuteNonQuery();
         }
@@ -260,19 +264,18 @@ namespace AmusementPark.Infrastructure.Repositories
         /// <summary>
         /// تبدیل رکورد دیتابیس به Entity.
         /// </summary>
-        private static Player MapPlayer(
-            OleDbDataReader reader)
+        private static Player MapPlayer(OleDbDataReader reader)
         {
             return new Player
             {
-                PlayerID =
-                    Convert.ToInt32(reader["PlayerID"]),
+                PlayerID = Convert.ToInt32(reader["PlayerID"]),
 
-                PlayerName =
-                    reader["PlayerName"]?.ToString(),
+                PlayerName = reader["PlayerName"]?.ToString(),
 
-                PlayerMobile =
-                    reader["PlayerMobile"]?.ToString()
+                PlayerMobile = reader["PlayerMobile"]?.ToString(),
+
+                IsAdmin = reader["IsAdmin"] != DBNull.Value &&
+                       Convert.ToBoolean(reader["IsAdmin"])
             };
         }
     }

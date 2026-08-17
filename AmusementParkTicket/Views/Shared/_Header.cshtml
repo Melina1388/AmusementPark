@@ -63,5 +63,12 @@
        asp-action="Contact">
         📞 تماس با ما
     </a>
-
+    @if (User.Identity?.IsAuthenticated == true &&
+        User.FindFirst("UserType")?.Value == "True")
+    {
+        <a asp-controller="Admin"
+           asp-action="Admin">
+            🎮 مدیریت بازی‌ها
+        </a>
+    }
 </aside>

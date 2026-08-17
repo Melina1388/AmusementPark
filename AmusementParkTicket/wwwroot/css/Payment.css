@@ -422,3 +422,9 @@ html {
         max-width: 600px;
     }
 }
+.receipt-ticket .card-number {
+    direction: ltr;
+    text-align: left;
+    unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums;
+}

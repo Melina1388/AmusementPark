@@ -108,6 +108,7 @@ h1.page-title {
     position: relative;
     overflow: hidden;
     transition: transform .25s ease, opacity .25s ease;
+    background: var(--surface);
 }
 
     .ticket-row::before {
