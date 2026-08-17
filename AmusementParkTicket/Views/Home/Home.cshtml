@@ -138,21 +138,26 @@
 
                 <div class="ride-row">
 
-                    @foreach (var game in amusement.Games)
+                   @foreach (var game in amusement.Games)
                     {
                         <div class="ride-card">
 
                             <div class="thumb">
 
-                                @if (!string.IsNullOrWhiteSpace(
-                               game.GamePic))
-                                {
-                                    <img src="@game.GamePic"
-                                         alt="@game.GameName"
-                                         loading="lazy" />
-                                }
+                               @if (!string.IsNullOrWhiteSpace(game.GameImageUrl))
+{
+    <img src="@game.GameImageUrl"
+         alt="@game.GameName"
+         loading="lazy" />
+}
+else
+{
+    <div class="image-not-found">
+        🎢
+    </div>
+}
 
-                            </div>
+                          </div>
 
                             <div class="info">
 

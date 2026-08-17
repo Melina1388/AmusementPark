@@ -6,6 +6,7 @@ namespace AmusementPark.Web.ViewModels
     {
         public string AmusementName { get; set; } = "";
 
-        public List<Game> Games { get; set; } = new();
+        public List<GameViewModel> Games { get; set; }
+            = new();
     }
 }

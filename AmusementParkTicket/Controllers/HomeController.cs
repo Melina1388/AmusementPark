@@ -8,18 +8,36 @@ public class HomeController : Controller
     private readonly APIService _apiService;
 
     private readonly IShopBasketService _shopBasketService;
+
+    private readonly IGameImageService _gameImageService;
     public HomeController(
-     APIService apiService,
-     IShopBasketService shopBasketService)
+       APIService apiService,
+       IShopBasketService shopBasketService,
+       IGameImageService gameImageService)
     {
         _apiService = apiService;
         _shopBasketService = shopBasketService;
+        _gameImageService = gameImageService;
     }
     [HttpGet]
     public async Task<IActionResult> Home(string? search)
     {
         List<Game> games = new();
+        var gameViewModels =
+    games.Select(game =>
+        new GameViewModel
+        {
+            GameID = game.GameID,
+            GameName = game.GameName,
+            AmusementName = game.AmusementName,
+            GamePrice = game.GamePrice,
+            GameComment = game.GameComment,
 
+            GameImageUrl =
+                _gameImageService.GetImageUrl(
+                    game.GamePic)
+        })
+        .ToList();
         try
         {
             // ============================================
@@ -61,26 +79,25 @@ public class HomeController : Controller
         // ============================================
         // ساخت ViewModel
         // ============================================
-
         var model = new HomeViewModel
         {
-            Games = games,
+            Games = gameViewModels,
 
-            // این خط خیلی مهم است
             BasketQuantities = basketQuantities,
 
-            Amusements = games
-                .Where(g =>
-                    !string.IsNullOrWhiteSpace(g.AmusementName))
-                .GroupBy(g =>
-                    g.AmusementName!.Trim())
-                .Select(g =>
-                    new AmusementGroupViewModel
-                    {
-                        AmusementName = g.Key,
-                        Games = g.ToList()
-                    })
-                .ToList()
+            Amusements = gameViewModels
+        .Where(g =>
+            !string.IsNullOrWhiteSpace(
+                g.AmusementName))
+        .GroupBy(g =>
+            g.AmusementName!.Trim())
+        .Select(g =>
+            new AmusementGroupViewModel
+            {
+                AmusementName = g.Key,
+                Games = g.ToList()
+            })
+        .ToList()
         };
 
         Console.WriteLine(

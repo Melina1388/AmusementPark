@@ -94,6 +94,10 @@ builder.Services.AddScoped<
     GameRepository>();
 
 builder.Services.AddScoped<
+    IGameImageService,
+    GameImageService>();
+
+builder.Services.AddScoped<
     ITicketRepository,
     TicketRepository>();
 
