@@ -1,7 +1,4 @@
-﻿// =====================================================
-// CONFETTI
-// =====================================================
-
+﻿///////////////////confetti
 const confetti =
     document.getElementById("confetti");
 
@@ -34,10 +31,6 @@ if (confetti) {
         confetti.appendChild(piece);
     }
 }
-
-
-//////////////////////////////////////
-///////////////////Payment///////////////////
 //////////////////////////////////
 const cardNumberInput = document.getElementById('cardNumberInput');
 const cardHolderInput = document.getElementById('cardHolderInput');
@@ -136,149 +129,79 @@ if (
         () => card3d.classList.remove('flipped')
     );
 }
+//////////////payment
+paymentForm.addEventListener('submit', function (e) {
 
+    document
+        .querySelectorAll('.field-error')
+        .forEach(el => el.textContent = '');
 
-// =====================================================
-// PAYMENT BUTTON
-// =====================================================
+    let hasError = false;
 
-const paymentForm =
-    document.getElementById('paymentForm');
+    if (
+        cardNumberInput.value
+            .replace(/\D/g, '')
+            .length !== 16
+    ) {
+        document.getElementById('cardNumberError')
+            .textContent =
+            'شماره کارت باید ۱۶ رقم باشد.';
 
-if (
-    paymentForm &&
-    cardNumberInput &&
-    cardHolderInput &&
-    expiryInput &&
-    cvvInput
-) {
-    paymentForm.addEventListener('submit', function (e) {
+        hasError = true;
+    }
 
+    if (!cardHolderInput.value.trim()) {
+        document.getElementById('cardHolderError')
+            .textContent =
+            'نام دارنده‌ی کارت را وارد کنید.';
+
+        hasError = true;
+    }
+
+    if (!/^\d{2}\/\d{2}$/.test(expiryInput.value)) {
+        document.getElementById('expiryError')
+            .textContent =
+            'قالب تاریخ باید MM/YY باشد.';
+
+        hasError = true;
+    }
+
+    if (!/^\d{3,4}$/.test(cvvInput.value)) {
+        document.getElementById('cvvError')
+            .textContent =
+            'CVV2 باید ۳ یا ۴ رقم باشد.';
+
+        hasError = true;
+    }
+
+    if (hasError) {
         e.preventDefault();
+        return;
+    }
 
-        document
-            .querySelectorAll('.field-error')
-            .forEach(el => el.textContent = '');
+    const payBtn =
+        document.getElementById('payBtn');
 
-        let hasError = false;
-
-
-        if (
-            cardNumberInput.value
-                .replace(/\D/g, '')
-                .length !== 16
-        ) {
-
-            document.getElementById('cardNumberError')
-                .textContent =
-                'شماره کارت باید ۱۶ رقم باشد.';
-
-            hasError = true;
-        }
+    if (payBtn) {
+        payBtn.classList.add('loading');
+    }
+});
 
 
-        if (!cardHolderInput.value.trim()) {
-
-            document.getElementById('cardHolderError')
-                .textContent =
-                'نام دارنده‌ی کارت را وارد کنید.';
-
-            hasError = true;
-        }
 
 
-        if (!/^\d{2}\/\d{2}$/.test(expiryInput.value)) {
-
-            document.getElementById('expiryError')
-                .textContent =
-                'قالب تاریخ باید MM/YY باشد.';
-
-            hasError = true;
-        }
 
 
-        if (!/^\d{3,4}$/.test(cvvInput.value)) {
-
-            document.getElementById('cvvError')
-                .textContent =
-                'CVV2 باید ۳ یا ۴ رقم باشد.';
-
-            hasError = true;
-        }
 
 
-        if (hasError) {
-            return;
-        }
 
 
-        const payBtn =
-            document.getElementById('payBtn');
-
-        if (payBtn) {
-            payBtn.classList.add('loading');
-        }
 
 
-        setTimeout(() => {
-
-            const digits =
-                cardNumberInput.value.replace(/\D/g, '');
-
-            const receiptHolder =
-                document.getElementById('receiptHolder');
-
-            const receiptCard =
-                document.getElementById('receiptCard');
-
-            const receiptOrderId =
-                document.getElementById('receiptOrderId');
-
-            const trackingCodeText =
-                document.getElementById('trackingCodeText');
-
-            const formSection =
-                document.getElementById('formSection');
-
-            const successSection =
-                document.getElementById('successSection');
 
 
-            if (receiptHolder) {
-                receiptHolder.textContent =
-                    cardHolderInput.value.toUpperCase();
-            }
 
-            if (receiptCard) {
-                receiptCard.textContent =
-                    '•••• •••• •••• ' + digits.slice(-4);
-            }
 
-            if (receiptOrderId) {
-                receiptOrderId.textContent =
-                    '#' + Math.floor(
-                        100000 + Math.random() * 900000
-                    );
-            }
 
-            if (trackingCodeText) {
-                trackingCodeText.textContent =
-                    generateTrackingCode();
-            }
-
-            if (formSection) {
-                formSection.style.display = 'none';
-            }
-
-            if (successSection) {
-                successSection.classList.add('show');
-            }
-
-            burstConfetti();
-
-        }, 1200);
-
-    });
-}
 
 

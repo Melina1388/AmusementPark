@@ -5,7 +5,7 @@ using AmusementPark.Infrastructure.Data;
 
 namespace AmusementPark.Infrastructure.Repositories;
 
-public class TransactionRepository : ITransactionRepository
+public class PaymentRepository : ITransactionRepository
 {
     public List<Transaction> GetAll()
     {
@@ -113,7 +113,7 @@ public class TransactionRepository : ITransactionRepository
         using OleDbCommand command =
             new(query, connection);
 
-
+        
         command.Parameters.AddWithValue(
             "@PlayerID",
             transaction.PlayerID);
@@ -121,6 +121,7 @@ public class TransactionRepository : ITransactionRepository
         command.Parameters.AddWithValue(
             "@CardNum",
             transaction.CardNum);
+        
 
         command.Parameters.AddWithValue(
             "@TotalPrice",
@@ -129,7 +130,7 @@ public class TransactionRepository : ITransactionRepository
         command.Parameters.AddWithValue(
             "@TrackingNum",
             transaction.TrackingNum);
-
+      
 
         command.ExecuteNonQuery();
 

@@ -3,9 +3,11 @@
 @section Scripts {
     <script src="~/js/SuccessPayment.js"></script>
 }
-
+@section Styles {
+    <link rel="stylesheet" href="~/css/Payment.css" />
+}
 <div class="pay-wrap">
-    <div class="pay-success">
+    <div class="pay-success show">
         <div class="check-circle">✔</div>
         <h1>پرداخت با موفقیت انجام شد!</h1>
         <p>بلیط‌هات آماده‌ست. لذت ببر 🎉</p>
@@ -28,6 +30,6 @@
             <div class="row"><span>مبلغ پرداخت‌شده</span><b>@Model.TotalAmount.ToString("N0") تومان</b></div>
         </div>
 
-        <a asp-controller="Home" asp-action="Index" class="submit-btn" style="display:block; text-decoration:none;">بازگشت به صفحه اصلی</a>
+        <a asp-controller="Home" asp-action="Home" class="submit-btn" style="display:block; text-decoration:none;">بازگشت به صفحه اصلی</a>
     </div>
 </div>
