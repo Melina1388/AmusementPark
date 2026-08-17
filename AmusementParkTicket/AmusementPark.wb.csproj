@@ -16,8 +16,4 @@
     <ProjectReference Include="..\AmusementPark.Infrastructure\AmusementPark.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\images\" />
-  </ItemGroup>
-
 </Project>
