@@ -15,7 +15,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
-builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<ITransactionRepository, PaymentRepository>();
 
 //// Service
 builder.Services.AddScoped<IPlayerService, PlayerService>();

@@ -99,7 +99,7 @@ builder.Services.AddScoped<
 
 builder.Services.AddScoped<
     ITransactionRepository,
-    TransactionRepository>();
+    PaymentRepository>();
 
 
 // =====================================================
