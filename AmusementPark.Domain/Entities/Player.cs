@@ -6,6 +6,8 @@
         public string? PlayerName { get; set; }
         public string? PlayerMobile { get; set; }
 
-
+        // false = کاربر عادی
+        // true = مدیر
+        public bool IsAdmin { get; set; }
     }
 }

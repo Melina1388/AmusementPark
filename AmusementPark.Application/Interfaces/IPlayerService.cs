@@ -10,7 +10,7 @@ namespace AmusementPark.Application.Interfaces
     /// </summary>
     public interface IPlayerService
     {
-        List<Player> GetAll();
+        List<Player> GetAll() ;
 
         Player? GetById(int id);
 

@@ -24,10 +24,10 @@
         </div>
 
         <div class="receipt-ticket">
-            <div class="row"><span>شماره سفارش</span><b>#@Model.Id.ToString("D6")</b></div>
+            <div class="row"><span>شماره سفارش</span><b>@Model.TrackingCode</b></div>
             <div class="row"><span>دارنده‌ی کارت</span><b>@Model.CardHolderName</b></div>
             <div class="row"><span>شماره کارت</span><b>@Model.MaskedCardNumber</b></div>
-            <div class="row"><span>مبلغ پرداخت‌شده</span><b>@Model.TotalAmount.ToString("N0") تومان</b></div>
+            <div class="row"><span>مبلغ پرداخت‌شده</span><b class="card-number">@Model.TotalAmount.ToString("N0") تومان</b></div>
         </div>
 
         <a asp-controller="Home" asp-action="Home" class="submit-btn" style="display:block; text-decoration:none;">بازگشت به صفحه اصلی</a>

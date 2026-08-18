@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "مدیریت بازی ها";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/Admin.css" />
+}
+
+@section Scripts {
+    <script src="~/js/Admin.js"></script>
+}
+
+<partial name="_Header" />
+
+<div class="wrap">
+    <div class="header-row">
+        <div style="display:flex; gap:8px;">
+            <button class="btn primary" onclick="openModal('addParkModal')">＋ شهربازی جدید</button>
+            <button class="btn ghost">خروج</button>
+        </div>
+    </div>
+
+    <div id="parksContainer"></div>
+</div>
+
+<div class="modal-overlay" id="addParkModal">
+    <div class="modal-box">
+        <h3>افزودن شهربازی جدید</h3>
+        <div class="form-group"><label class="form-label">نام شهربازی</label><input type="text" id="addParkName" class="form-input" placeholder="مثلاً شهربازی ملت"></div>
+        <div class="modal-actions">
+            <button class="modal-btn-cancel" onclick="closeModal('addParkModal')">انصراف</button>
+            <button class="modal-btn-confirm" onclick="submitAddPark()">افزودن</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="editParkModal">
+    <div class="modal-box">
+        <h3>ویرایش نام شهربازی</h3>
+        <div class="form-group"><label class="form-label">نام شهربازی</label><input type="text" id="editParkName" class="form-input"></div>
+        <div class="modal-actions">
+            <button class="modal-btn-cancel" onclick="closeModal('editParkModal')">انصراف</button>
+            <button class="modal-btn-confirm" onclick="submitEditPark()">ذخیره</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="rideModal">
+    <div class="modal-box">
+        <h3 id="rideModalTitle">افزودن بازی جدید</h3>
+        <div class="form-group"><label class="form-label">نام بازی</label><input type="text" id="rideName" class="form-input" placeholder="مثلاً ترن هوایی"></div>
+        <div class="form-group"><label class="form-label">قیمت (تومان)</label><input type="number" id="ridePrice" class="form-input" min="0" step="1000"></div>
+        <div class="form-group">
+            <label class="form-label">عکس بازی</label>
+            <div class="file-input-wrap">
+                <div class="file-preview" id="rideImagePreview"></div>
+                <input type="file" id="rideImageFile" accept="image/*">
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn-cancel" onclick="closeModal('rideModal')">انصراف</button>
+            <button class="modal-btn-confirm" onclick="submitRide()">ذخیره</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="deleteModal">
+    <div class="modal-box">
+        <h3>حذف «<span id="deleteTargetName"></span>»؟</h3>
+        <p>این عمل قابل بازگشت نیست.</p>
+        <div class="modal-actions">
+            <button class="modal-btn-cancel" onclick="closeModal('deleteModal')">انصراف</button>
+            <button class="modal-btn-confirm" onclick="confirmDelete()">بله، حذف کن</button>
+        </div>
+    </div>
+</div>

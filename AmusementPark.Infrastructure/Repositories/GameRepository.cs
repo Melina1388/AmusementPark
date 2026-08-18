@@ -175,4 +175,121 @@ public class GameRepository : IGameRepository
 
         command.ExecuteNonQuery();
     }
+    public List<string> GetAmusementParks()
+    {
+        List<string> parks = new();
+
+        using OleDbConnection connection =
+            AccessConnection.GetConnection();
+
+        connection.Open();
+
+        const string sql = @"
+        SELECT DISTINCT AmusementName
+        FROM Game
+        WHERE AmusementName IS NOT NULL
+          AND AmusementName <> ''
+        ORDER BY AmusementName";
+
+        using OleDbCommand command =
+            new(sql, connection);
+
+        using OleDbDataReader reader =
+            command.ExecuteReader();
+
+        while (reader.Read())
+        {
+            string? name =
+                reader["AmusementName"]?.ToString();
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                parks.Add(name);
+            }
+        }
+
+        return parks;
+    }
+    public bool AmusementParkExists(
+    string amusementName)
+    {
+        using OleDbConnection connection =
+            AccessConnection.GetConnection();
+
+        connection.Open();
+
+        const string sql = @"
+        SELECT COUNT(*)
+        FROM Game
+        WHERE AmusementName = ?";
+
+        using OleDbCommand command =
+            new(sql, connection);
+
+        command.Parameters.AddWithValue(
+            "@AmusementName",
+            amusementName);
+
+        int count =
+            Convert.ToInt32(
+                command.ExecuteScalar());
+
+        return count > 0;
+    }
+    public void RenameAmusementPark(
+    string oldName,
+    string newName)
+    {
+        using OleDbConnection connection =
+            AccessConnection.GetConnection();
+
+        connection.Open();
+
+        const string sql = @"
+        UPDATE Game
+        SET AmusementName = ?
+        WHERE AmusementName = ?";
+
+        using OleDbCommand command =
+            new(sql, connection);
+
+        command.Parameters.AddWithValue(
+            "@NewName",
+            newName);
+
+        command.Parameters.AddWithValue(
+            "@OldName",
+            oldName);
+
+        command.ExecuteNonQuery();
+    }
+    public void DeleteAmusementPark(
+    string amusementName)
+    {
+        using OleDbConnection connection =
+            AccessConnection.GetConnection();
+
+        connection.Open();
+
+        const string sql = @"
+        DELETE FROM Game
+        WHERE AmusementName = ?";
+
+        using OleDbCommand command =
+            new(sql, connection);
+
+        command.Parameters.AddWithValue(
+            "@AmusementName",
+            amusementName);
+
+        command.ExecuteNonQuery();
+    }
+   
+
+
+   
+
+
+    
+  
 }

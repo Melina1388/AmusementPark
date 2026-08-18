@@ -315,11 +315,15 @@ namespace AmusementPark.Controllers
 {
     new Claim(
         ClaimTypes.NameIdentifier,
-        player.PlayerID.ToString()),
+        player.PlayerID.ToString()!),
 
     new Claim(
         ClaimTypes.Name,
-        player.PlayerName ?? string.Empty)
+        player.PlayerName ?? string.Empty),
+
+    new Claim(
+        "UserType",
+        player.IsAdmin.ToString())
 };
 
             var identity = new ClaimsIdentity(
