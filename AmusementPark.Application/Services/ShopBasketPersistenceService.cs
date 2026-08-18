@@ -48,9 +48,8 @@ namespace AmusementPark.Application.Services
                     nameof(items));
             }
 
-            List<ShopBasket> basketItems =
-                new();
-
+            List<ShopBasket> basketItems = new();
+            
             foreach (ShopBasketItemDto item in items)
             {
                 if (item.GameID <= 0 ||
@@ -61,9 +60,8 @@ namespace AmusementPark.Application.Services
 
                 // اطلاعات بازی دوباره از منبع اصلی خوانده می‌شود
                 // تا قیمت یا نام موجود در Session مبنای نهایی نباشد.
-                Game? game =
-                    _gameService.GetById(
-                        item.GameID);
+
+                Game? game = _gameService.GetById(item.GameID);
 
                 if (game == null)
                 {

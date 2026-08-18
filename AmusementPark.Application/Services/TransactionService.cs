@@ -36,6 +36,8 @@ namespace AmusementPark.Application.Services
         public List<Transaction> GetPlayerTransactions(
             int playerId)
         {
+            //ef
+
             return _transactionRepository
                 .GetPlayerTransactions(playerId);
         }

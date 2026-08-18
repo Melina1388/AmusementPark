@@ -77,6 +77,7 @@ namespace AmusementPark.Application.Services
             _playerRepository.Update(player);
         }
 
+       
         public void Delete(int id)
         {
             _playerRepository.Delete(id);
