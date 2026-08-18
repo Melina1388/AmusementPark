@@ -259,7 +259,7 @@
 }
 
 .ride-card .thumb {
-    height: 100px;
+    height: 180px;
     width: 100%;
     position: relative;
     overflow: hidden;
@@ -333,7 +333,7 @@
 }
 
 .ride-card .info {
-    padding: 10px 12px 12px;
+    padding: 6px 10px 5px;
 }
 
     .ride-card .info .name {

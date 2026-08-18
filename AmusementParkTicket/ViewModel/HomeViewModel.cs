@@ -1,5 +1,4 @@
-﻿using AmusementPark.Domain.Entities;
-
+﻿
 namespace AmusementPark.Web.ViewModels
 {
     public class HomeViewModel

@@ -23,25 +23,11 @@ public class HomeController : Controller
     public async Task<IActionResult> Home(string? search)
     {
         List<Game> games = new();
-        var gameViewModels =
-    games.Select(game =>
-        new GameViewModel
-        {
-            GameID = game.GameID,
-            GameName = game.GameName,
-            AmusementName = game.AmusementName,
-            GamePrice = game.GamePrice,
-            GameComment = game.GameComment,
 
-            GameImageUrl =
-                _gameImageService.GetImageUrl(
-                    game.GamePic)
-        })
-        .ToList();
         try
         {
             // ============================================
-            // دریافت بازی‌ها
+            // 1. دریافت بازی‌ها
             // ============================================
 
             if (string.IsNullOrWhiteSpace(search))
@@ -63,12 +49,31 @@ public class HomeController : Controller
         }
 
         // ============================================
-        // دریافت سبد خرید فعلی
+        // 2. تبدیل Game به GameViewModel
+        // ============================================
+
+        var gameViewModels = games
+            .Select(game =>
+                new GameViewModel
+                {
+                    GameID = game.GameID,
+                    GameName = game.GameName,
+                    AmusementName = game.AmusementName,
+                    GamePrice = game.GamePrice,
+                    GameComment = game.GameComment,
+
+                    GameImageUrl =
+                        _gameImageService.GetImageUrl(
+                            game.GamePic)
+                })
+            .ToList();
+
+        // ============================================
+        // 3. دریافت سبد خرید فعلی
         // ============================================
 
         var basket = _shopBasketService.GetBasket();
 
-        // GameID -> Quantity
         var basketQuantities = basket
             .GroupBy(x => x.GameID)
             .ToDictionary(
@@ -77,8 +82,9 @@ public class HomeController : Controller
             );
 
         // ============================================
-        // ساخت ViewModel
+        // 4. ساخت HomeViewModel
         // ============================================
+
         var model = new HomeViewModel
         {
             Games = gameViewModels,
@@ -86,22 +92,29 @@ public class HomeController : Controller
             BasketQuantities = basketQuantities,
 
             Amusements = gameViewModels
-        .Where(g =>
-            !string.IsNullOrWhiteSpace(
-                g.AmusementName))
-        .GroupBy(g =>
-            g.AmusementName!.Trim())
-        .Select(g =>
-            new AmusementGroupViewModel
-            {
-                AmusementName = g.Key,
-                Games = g.ToList()
-            })
-        .ToList()
+                .Where(g =>
+                    !string.IsNullOrWhiteSpace(
+                        g.AmusementName))
+                .GroupBy(g =>
+                    g.AmusementName!.Trim())
+                .Select(g =>
+                    new AmusementGroupViewModel
+                    {
+                        AmusementName = g.Key,
+                        Games = g.ToList()
+                    })
+                .ToList()
         };
+
+        // ============================================
+        // Debug
+        // ============================================
 
         Console.WriteLine(
             $"Games Count: {games.Count}");
+
+        Console.WriteLine(
+            $"GameViewModels Count: {gameViewModels.Count}");
 
         Console.WriteLine(
             $"Amusements Count: {model.Amusements.Count}");
@@ -111,6 +124,8 @@ public class HomeController : Controller
 
         return View(model);
     }
+
+
     [HttpGet]
     public async Task<IActionResult> SearchSuggestions(
     string? search)
