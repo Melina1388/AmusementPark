@@ -63,6 +63,7 @@
        asp-action="Contact">
         📞 تماس با ما
     </a>
+    <!--باعث می‌شود لینک Admin فقط برای کاربر خاص نمایش داده شود.-->
     @if (User.Identity?.IsAuthenticated == true &&
         User.FindFirst("UserType")?.Value == "True")
     {
